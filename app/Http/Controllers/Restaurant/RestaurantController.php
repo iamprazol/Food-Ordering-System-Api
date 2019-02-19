@@ -2,86 +2,42 @@
 
 namespace App\Http\Controllers\Restaurant;
 
-use App\Restaurant;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-
+use App\Restaurant;
+use App\Http\Resources\Restaurant\Restaurant as RestaurantResource;
 
 class RestaurantController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
+    public function index(){
+
+        $restaurant = Restaurant::orderBy('restaurant_name', 'asc')->get();
+
+        $data = RestaurantResource::collection($restaurant);
+
+        $num = count($restaurant);
+
+        if($num > 0){
+            return $this->responser($data, '200', 'All Restaurant are listed');
+        } else {
+            return $this->responser($data, 404, 'Restaurants cannot be found');
+        }
+
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
+    public function restaurantById($id){
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+        $restaurant = Restaurant::where('id', $id)->orderBy('restaurant_name', 'asc')->get();
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Restaurant  $restaurnat
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Restaurant $restaurnat)
-    {
-        //
-    }
+        $data = RestaurantResource::collection($restaurant);
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Restaurant  $restaurnat
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Restaurant $restaurnat)
-    {
-        //
-    }
+        $num = count($restaurant);
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Restaurant  $restaurnat
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Restaurant $restaurnat)
-    {
-        //
-    }
+        if($num > 0){
+            return $this->responser($data, '200', 'Restaurant with specific id is found');
+        } else {
+            return $this->responser($data, 404, 'Restaurant with specific id cannot be found');
+        }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Restaurant  $restaurnat
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Restaurant $restaurnat)
-    {
-        //
     }
 }
