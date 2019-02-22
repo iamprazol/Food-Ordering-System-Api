@@ -13,8 +13,22 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
+Route::middleware('auth:api')->get('/user' , function (Request $request) {
     return $request->user();
+});
+
+Route::post('login', 'User\UserController@login');
+Route::post('register', 'User\UserController@register');
+
+Route::group(['middleware' => 'auth:api'], function () {
+
+    Route::get('userlist','User\UserController@index'); //list all users registered
+    Route::get('userbyid/{id}','User\UserController@userById');     //list specific user detils
+    Route::get('orderbyuser/{id}', 'User\OrderController@orderByUser');     //List the order issued by specific user
+    Route::get('favouritebyuser/{id}', 'User\FavouritesController@favouriteByUser');     //List the favourite restaurant and food item by specific user
+    Route::get('cartbyuser/{id}', 'User\CartController@cartByUser');     //List the cart issued by specific user
+    Route::get('addressbyuser/{id}', 'User\AddressController@addressByUser');     //List the address saved by specific user for delivery
+
 });
 
 Route::get('userlist','User\UserController@index'); //list all users registered
