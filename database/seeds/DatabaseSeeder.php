@@ -14,13 +14,12 @@ class DatabaseSeeder extends Seeder
         factory('App\User', 10)->create();
         factory('App\Restaurant', 10)->create();
         factory('App\Review', 10)->create();
-        factory('App\Special', 10)->create();
         factory('App\Branch', 10)->create();
         factory('App\Favourites', 10)->create();
         factory('App\Food', 10)->create();
         factory('App\Order', 10)->create();
         factory('App\Cart', 10)->create();
         factory('App\Address', 10)->create();
-
+        factory('App\Cusine', 10)->create();
     }
 }

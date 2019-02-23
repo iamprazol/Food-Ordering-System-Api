@@ -10,6 +10,10 @@ class Order extends Model
         'id',
         'user_id',
         'cart_id',
+        'address',
+        'delivery_date',
+        'delivery_time',
+        'instruction',
         'total_price',
         'paid'
     ];

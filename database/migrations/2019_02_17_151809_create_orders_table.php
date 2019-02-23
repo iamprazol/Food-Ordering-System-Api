@@ -17,6 +17,10 @@ class CreateOrdersTable extends Migration
             $table->increments('id');
             $table->integer('user_id');
             $table->integer('cart_id');
+            $table->string('address');
+            $table->date('delivery_date');
+            $table->time('delivery_time');
+            $table->string('instruction')->nullable();
             $table->float('total_price');
             $table->boolean('paid');
             $table->timestamps();

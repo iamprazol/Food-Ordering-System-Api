@@ -18,13 +18,20 @@ class Restaurant extends JsonResource
 
         return[
             'id' => $this->id,
+            'cusine_id' => $this->cusine_id,
+            'cusine_name' => $this->cusine->name,
             'restaurant_name' => $this->restaurant_name,
-            'address' => $this->address,
             'description' => $this->description,
             'delivery_hours' => $this->delivery_hours,
             'minimum_order' => $this->minimum_order,
             'cover_pic' => $this->cover_pic,
-            'picture' => $this->picture
+            'picture' => $this->picture,
+            'address' => $this->address,
+            'latitude' => $this->latitude,
+            'longitude' => $this->longitude,
+            'vat' => $this->vat,
+            'discount' => $this->discount,
+            'additional_charges' => $this->additional_charge
         ];
     }
 }

@@ -8,14 +8,24 @@ class Restaurant extends Model
 {
     protected $fillable = [
         'id',
+        'cusine_id',
         'restaurant_name',
         'address',
         'description',
         'delivery_hours',
         'minimum_order',
         'cover_pic',
-        'picture'
+        'picture',
+        'latitude',
+        'longitude',
+        'discount',
+        'additional_charge',
+        'vat'
     ];
+
+    public function cusine(){
+        return $this->belongsTo('App\Cusine');
+    }
 
     public function food(){
         return $this->hasMany('App\Food');

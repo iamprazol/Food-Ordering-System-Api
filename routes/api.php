@@ -38,4 +38,4 @@ Route::get('branchbyid/{id}', 'Restaurant\BranchesController@branchById');  //Li
 Route::get('branchofrestaurant/{id}','Restaurant\BranchesController@branchOfRestaurant'); //List the branches of a specific restaurant
 Route::get('reviewofrestaurant/{id}','Restaurant\ReviewController@reviewOfRestaurant');  //List the reviews of a specific restaurant
 Route::get('foodofrestaurant/{id}','Restaurant\FoodController@foodOfRestaurant');  //List the foods available in a specific restaurant
-Route::get('specialofrestaurant/{id}','Restaurant\SpecialController@specialOfRestaurant');  //List the special items of a restaurant
+Route::get('cusine','Restaurant\CusineController@index');  //List all the cusines

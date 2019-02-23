@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateSpecialsTable extends Migration
+class CreateCusinesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,9 @@ class CreateSpecialsTable extends Migration
      */
     public function up()
     {
-        Schema::create('specials', function (Blueprint $table) {
+        Schema::create('cusines', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('restaurant_id');
-            $table->integer('food_id');
+            $table->string('name');
             $table->timestamps();
         });
     }
@@ -28,6 +27,6 @@ class CreateSpecialsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('specials');
+        Schema::dropIfExists('cusines');
     }
 }

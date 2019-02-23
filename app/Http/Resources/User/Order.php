@@ -3,6 +3,7 @@
 namespace App\Http\Resources\User;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use Carbon\Carbon;
 
 class Order extends JsonResource
 {
@@ -23,7 +24,11 @@ class Order extends JsonResource
             'cart_id' => $this->cart_id,
             'foods' => $this->cart->food->food_name,
             'total_price' => $this->total_price,
-            'paid' => $this->paid
+            'paid' => $this->paid,
+            'address' => $this->address,
+            'delivery_date' => Carbon::parse($this->delivery_date)->format('d/m/Y'),
+            'delivery_time' =>   Carbon::parse($this->delivery_time)->format('g:i A'),
+            'instruction' => $this->instruction
         ];
     }
 }
