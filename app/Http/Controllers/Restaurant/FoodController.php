@@ -19,4 +19,14 @@ class FoodController extends Controller
         return $this->responser($food, $data, 'Foods');
 
     }
+
+    public function foodByCategory($id){
+
+        $food = Food::where('category_id', $id)->orderBy('food_name', 'asc')->get();
+
+        $data = FoodResource::collection($food);
+
+        return $this->responser($food, $data, 'Foods');
+
+    }
 }

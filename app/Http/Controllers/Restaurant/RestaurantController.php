@@ -27,6 +27,7 @@ class RestaurantController extends Controller
         return $this->responser($restaurant, $data,'restaurants');
 
     }
+
     public function restaurantById($id){
 
         $restaurant = Restaurant::where('id', $id)->orderBy('restaurant_name', 'asc')->get();

@@ -21,5 +21,6 @@ class DatabaseSeeder extends Seeder
         factory('App\Cart', 10)->create();
         factory('App\Address', 10)->create();
         factory('App\Cusine', 10)->create();
+        factory('App\Category', 10)->create();
     }
 }
