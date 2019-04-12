@@ -15,13 +15,7 @@ class ReviewController extends Controller
 
         $data = ReviewResource::collection($review);
 
-        $num = count($review);
-
-        if($num > 0){
-            return $this->responser($data, 200, 'Review of a specific restaurant is listed');
-        } else {
-            return $this->responser($data, 404, 'Review of a specific restaurant cannot be found');
-        }
+        return $this->responser($review, $data, 'Reviews');
 
     }
 }

@@ -15,13 +15,7 @@ class BranchesController extends Controller
 
         $data = BranchResource::collection($branch);
 
-        $num = count($branch);
-
-        if($num > 0){
-            return $this->responser($data, 200, 'Branch with specific id is listed');
-        } else {
-            return $this->responser($data, 404, 'Branch with specific id cannot be found');
-        }
+        return $this->responser($branch, $data, 'Branches');
 
     }
 
@@ -31,13 +25,7 @@ class BranchesController extends Controller
 
         $data = BranchResource::collection($branch);
 
-        $num = count($branch);
-
-        if($num > 0){
-            return $this->responser($data, 200, 'Branch with specific restaurant id is listed');
-        } else {
-            return $this->responser($data, 404, 'Branch with specific restaurant id cannot be found');
-        }
+        return $this->responser($branch, $data, 'Branches');
 
     }
 }

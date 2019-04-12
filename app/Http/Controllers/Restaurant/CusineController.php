@@ -15,13 +15,7 @@ class CusineController extends Controller
 
         $data = CusineResource::collection($cusine);
 
-        $num = count($data);
-
-        if($num > 0){
-            return $this->responser($data, 200, 'All Cusines are listed');
-        } else {
-            return $this->responser($data, 404, 'Cusines cannot be found');
-        }
+        return $this->responser($cusine, $data, 'Cusines');
 
     }
 }

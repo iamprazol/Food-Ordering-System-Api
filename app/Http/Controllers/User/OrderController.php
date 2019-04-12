@@ -16,12 +16,7 @@ class OrderController extends Controller
 
         $data = OrderResource::collection($order);
 
-        $num = count($order);
+        return $this->responser($order, $data, 'Orders');
 
-        if($num > 0){
-            return $this->responser($data,200,"Order with specific user_id is found");
-        } else {
-            return $this->responser($data,404,"Order with specific user_id cannot be found");
-        }
     }
 }

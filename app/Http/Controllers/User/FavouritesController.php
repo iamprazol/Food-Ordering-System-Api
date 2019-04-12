@@ -16,12 +16,7 @@ class FavouritesController extends Controller
 
         $data = FavouriteResource::collection($favourite);
 
-        $num = count($favourite);
+        return $this->responser($favourite, $data,'Favourites');
 
-        if($num > 0){
-            return $this->responser($data,200,"Favourite items with specific user id is found");
-        } else {
-            return $this->responser($data,404,"Favourite with specific user id cannot be found");
-        }
     }
 }

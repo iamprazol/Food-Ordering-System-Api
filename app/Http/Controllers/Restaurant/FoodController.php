@@ -16,13 +16,7 @@ class FoodController extends Controller
 
         $data = FoodResource::collection($food);
 
-        $num = count($food);
-
-        if($num > 0){
-            return $this->responser($data, 200, 'Food in a specific restaurant is listed');
-        } else {
-            return $this->responser($data, 404, 'Food in a specific restaurant id cannot be found');
-        }
+        return $this->responser($food, $data, 'Foods');
 
     }
 }

@@ -70,13 +70,8 @@ class UserController extends Controller
 
         $data = UserResource::collection($user);
 
-        $num = count($user);
+        return $this->responser($user, $data, 'Users');
 
-        if($num > 0){
-            return $this->responser($data,200,"All user are listed");
-        } else {
-            return $this->responser($data,404,"No users found");
-        }
     }
 
     public function userById($id){
@@ -85,13 +80,8 @@ class UserController extends Controller
 
         $data = UserResource::collection($user);
 
-        $num = count($user);
+        return $this->responser($user, $data, 'User');
 
-        if($num > 0){
-            return $this->responser($data,200,"User with specific id is found");
-        } else {
-            return $this->responser($data,404,"User with specific id cannot be found");
-        }
     }
 
 }

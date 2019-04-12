@@ -15,14 +15,7 @@ class RestaurantController extends Controller
 
         $data = RestaurantResource::collection($restaurant);
 
-        $num = count($restaurant);
-
-        if($num > 0){
-            return $this->responser($data, '200', 'All Restaurant are listed');
-        } else {
-            return $this->responser($data, 404, 'Restaurants cannot be found');
-        }
-
+        return $this->responser($restaurant, $data, 'restaurants');
     }
 
     public function searchRestaurant($name){
@@ -31,13 +24,8 @@ class RestaurantController extends Controller
 
         $data = RestaurantResource::collection($restaurant);
 
-        $num = count($restaurant);
+        return $this->responser($restaurant, $data,'restaurants');
 
-        if($num > 0){
-            return $this->responser($data, '200', 'All Restaurant with letters '.$name.'are listed');
-        } else {
-            return $this->responser($data, 404, 'Restaurants with letters '.$name.' cannot be found');
-        }
     }
     public function restaurantById($id){
 
@@ -45,13 +33,6 @@ class RestaurantController extends Controller
 
         $data = RestaurantResource::collection($restaurant);
 
-        $num = count($restaurant);
-
-        if($num > 0){
-            return $this->responser($data, '200', 'Restaurant with specific id is found');
-        } else {
-            return $this->responser($data, 404, 'Restaurant with specific id cannot be found');
-        }
-
+        return $this->responser($restaurant, $data,'restaurant');
     }
 }

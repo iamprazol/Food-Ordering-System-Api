@@ -15,13 +15,7 @@ class SpecialController extends Controller
 
         $data = SpecialResource::collection($special);
 
-        $num = count($special);
-
-        if($num > 0){
-            return $this->responser($data, 200, 'Special item in a specific restaurant is listed');
-        } else {
-            return $this->responser($data, 404, 'Special item in a specific restaurant cannot be found');
-        }
+        return $this->responser($special, $data, 'Special');
 
     }
 }
