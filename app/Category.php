@@ -4,22 +4,19 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Food extends Model
+class Category extends Model
 {
     protected $fillable = [
         'id',
         'restaurant_id',
-        'category_id',
-        'food_name',
-        'picture',
-        'price'
+        'category_name'
     ];
 
     public function restaurant(){
         return $this->belongsTo('App\Restaurant');
     }
 
-    public function category(){
-        return $this->belongsTo('App\Category');
+    public function food(){
+        return $this->hasMany('App\Food');
     }
 }

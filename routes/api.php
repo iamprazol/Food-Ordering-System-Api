@@ -37,5 +37,7 @@ Route::get('restaurantbyid/{id}','Restaurant\RestaurantController@restaurantById
 Route::get('branchbyid/{id}', 'Restaurant\BranchesController@branchById');  //List the details of a specific branch
 Route::get('branchofrestaurant/{id}','Restaurant\BranchesController@branchOfRestaurant'); //List the branches of a specific restaurant
 Route::get('reviewofrestaurant/{id}','Restaurant\ReviewController@reviewOfRestaurant');  //List the reviews of a specific restaurant
+Route::get('categoryinrestaurant/{id}','Restaurant\CategoryController@index');  //List the foods available in a specific restaurant
 Route::get('foodofrestaurant/{id}','Restaurant\FoodController@foodOfRestaurant');  //List the foods available in a specific restaurant
+Route::get('foodbycategory/{id}','Restaurant\FoodController@foodByCategory');  //List the foods available in a specific category
 Route::get('cusine','Restaurant\CusineController@index');  //List all the cusines
