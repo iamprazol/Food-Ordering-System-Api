@@ -28,6 +28,7 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::get('favouritebyuser/{id}', 'User\FavouritesController@favouriteByUser');     //List the favourite restaurant and food item by specific user
     Route::get('cartbyuser/{id}', 'User\CartController@cartByUser');     //List the cart issued by specific user
     Route::get('addressbyuser/{id}', 'User\AddressController@addressByUser');     //List the address saved by specific user for delivery
+    Route::get('logout', 'User\UserController@logout')->name('logout');
 
 });
 

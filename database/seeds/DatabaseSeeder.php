@@ -22,5 +22,7 @@ class DatabaseSeeder extends Seeder
         factory('App\Address', 10)->create();
         factory('App\Cusine', 10)->create();
         factory('App\Category', 10)->create();
+
+        $this->call(RoleTableSeeder::class);
     }
 }
