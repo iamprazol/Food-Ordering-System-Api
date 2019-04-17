@@ -52,7 +52,6 @@ class UserController extends Controller
         return response()->json(['success'=>$success], 200);
     }
 
-
     public function index(){
 
         $user = User::OrderBy('id', 'asc')->get();
