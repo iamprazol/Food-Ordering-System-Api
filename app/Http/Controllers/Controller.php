@@ -6,6 +6,7 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use App\Restaurant;
 
 class Controller extends BaseController
 {
@@ -14,7 +15,7 @@ class Controller extends BaseController
     public function responser($item,$data,$name)
     {
 
-        $num = count($item);
+        $num = $item->count();
 
         if($num > 0){
             return response()->json([
@@ -32,4 +33,41 @@ class Controller extends BaseController
 
 
     }
+
+    public static function closest($lat, $lng, $max_distance = 50, $max_locations = 50, $units = 'miles')
+    {
+        /*
+         *  Allow for changing of units of measurement
+         */
+        switch ( $units ) {
+            default:
+            case 'miles':
+                $gr_circle_radius = 3959;
+                break;
+            case 'kilometers':
+                $gr_circle_radius = 6371;
+                break;
+        }
+        $distance_select = sprintf(
+            "*, ( %d * acos( cos( radians(%s) ) " .
+            " * cos( radians( latitude ) ) " .
+            " * cos( radians( longitude ) - radians(%s) ) " .
+            " + sin( radians(%s) ) * sin( radians( latitude ) ) " .
+            ") " .
+            ") " .
+            "AS distance",
+            $gr_circle_radius,
+            $lat,
+            $lng,
+            $lat
+        );
+
+
+        return  Restaurant::selectraw($distance_select)
+            ->having( 'distance', '<', $max_distance )
+            ->take( $max_locations )
+            ->orderBy( 'distance', 'ASC' )
+            ->get();
+    }
+
 }

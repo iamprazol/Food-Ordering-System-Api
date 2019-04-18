@@ -33,9 +33,7 @@ Route::group(['middleware' => ['auth:api' , 'customer']], function () {
 
 });
 
-Route::get('restaurant','Restaurant\RestaurantController@index'); //List all the restaurants
-Route::get('restaurant/{name}','Restaurant\RestaurantController@searchRestaurant');  //List all restaurant with letters supplied in name attribute
-Route::get('restaurantbyid/{id}','Restaurant\RestaurantController@restaurantById');  //List the details of a specific restaurant
+Route::get('restaurant','Restaurant\RestaurantController@searchRestaurant');  //List all restaurant with letters supplied in name attribute
 Route::get('branchbyid/{id}', 'Restaurant\BranchesController@branchById');  //List the details of a specific branch
 Route::get('branchofrestaurant/{id}','Restaurant\BranchesController@branchOfRestaurant'); //List the branches of a specific restaurant
 Route::get('reviewofrestaurant/{id}','Restaurant\ReviewController@reviewOfRestaurant');  //List the reviews of a specific restaurant
