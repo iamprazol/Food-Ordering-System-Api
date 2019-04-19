@@ -9,6 +9,7 @@ use App\Cart;
 use Illuminate\Support\Facades\Auth;
 use App\Food;
 use Session;
+use App\Restaurant;
 class CartController extends Controller
 {
     public function myCart(){
@@ -34,20 +35,20 @@ class CartController extends Controller
                 Cart::create([
                     "food_id" => $id,
                     "quantity" => 1,
-                    "price" => $food->price,
+                    "price" => $this->price($food->id),
                     "user_id" => $user->id,
                     "restaurant_id" => $food->restaurant->id
                 ]);
             } else {
                 $f->quantity = $f->quantity + 1;
-                $f->price = $food->price * $f->quantity;
+                $f->price = $this->price($food->id) * $f->quantity;
                 $f->save();
             }
         } else {
             Cart::create([
                 "food_id" => $id,
                 "quantity" => 1,
-                "price" => $food->price,
+                "price" => $this->price($food->id),
                 "user_id" => $user->id,
                 "restaurant_id" => $food->restaurant->id
             ]);
@@ -108,4 +109,32 @@ class CartController extends Controller
             }
     }
 
+    public function price($food_id)
+    {
+        $food = Food::where('id', $food_id)->first();
+
+        //price without additional charge and vat
+        $withoutcharges = $food->price;
+
+        //price with additional vat
+        $vat = $food->restaurant->vat;
+        if ($vat == 0) {
+            $vatprice = 0;
+        } else {
+            $vatprice = ($vat / 100) * $withoutcharges;
+        }
+
+        //price with additional service charge
+        $addtionalcharge = $food->restaurant->additional_charge;
+        if ($addtionalcharge == 0) {
+            $addtionalprice = 0;
+        } else {
+            $addtionalprice = ($addtionalcharge / 100) * $withoutcharges;
+        }
+
+        //Total price with addtional vat and service charge
+        $total_price = $withoutcharges + $vatprice + $addtionalprice;
+        return $total_price;
+
+    }
 }

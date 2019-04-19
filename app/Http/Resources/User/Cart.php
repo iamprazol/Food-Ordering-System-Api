@@ -21,7 +21,7 @@ class Cart extends JsonResource
             'user_id' => $this->user_id,
             'user_name' => $this->user->first_name.' '.$this->user->last_name,
             'restaurant_id' => $this->food->restaurant->id,
-            'restaurnat_name' => $this->food->restaurant->restaurant_name,
+            'restaurant_name' => $this->food->restaurant->restaurant_name,
             'food_id' => $this->food_id,
             'food_name' => $this->food->food_name,
             'food_price' => $this->price,
