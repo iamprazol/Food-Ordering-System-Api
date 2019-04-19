@@ -9,13 +9,15 @@ class Order extends Model
     protected $fillable = [
         'id',
         'user_id',
-        'cart_id',
+        'food_id',
+        'quantity',
         'address',
         'delivery_date',
         'delivery_time',
         'instruction',
         'total_price',
-        'paid'
+        'paid',
+        'delivered'
     ];
 
 
@@ -23,8 +25,8 @@ class Order extends Model
         return $this->belongsTo('App\User');
     }
 
-    public function cart(){
-        return $this->belongsTo('App\Cart');
+    public function food(){
+        return $this->belongsTo('App\Food');
     }
 
 }

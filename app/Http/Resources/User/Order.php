@@ -21,14 +21,16 @@ class Order extends JsonResource
             'id' => $this->id,
             'user_id' => $this->user_id,
             'user_name' => $this->user->first_name.' '.$this->user->last_name,
-            'cart_id' => $this->cart_id,
-            'foods' => $this->cart->food->food_name,
+            'food_id' => $this->food_id,
+            'foods' => $this->food->food_name,
+            'quantity' => $this->quantity,
             'total_price' => $this->total_price,
-            'paid' => $this->paid,
             'address' => $this->address,
             'delivery_date' => Carbon::parse($this->delivery_date)->format('d/m/Y'),
             'delivery_time' =>   Carbon::parse($this->delivery_time)->format('g:i A'),
-            'instruction' => $this->instruction
+            'instruction' => $this->instruction,
+            'paid' => $this->paid,
+            'delivered' => $this->delivered
         ];
     }
 }

@@ -28,10 +28,20 @@ Route::group(['middleware' => ['auth:api' , 'customer']], function () {
     Route::get('userbyid/{id}','User\UserController@userById');     //list specific user detils
     Route::get('orderbyuser/{id}', 'User\OrderController@orderByUser');     //List the order issued by specific user
     Route::get('favouritebyuser/{id}', 'User\FavouritesController@favouriteByUser');     //List the favourite restaurant and food item by specific user
-    Route::get('cartbyuser/{id}', 'User\CartController@cartByUser');     //List the cart issued by specific user
     Route::get('addressbyuser/{id}', 'User\AddressController@addressByUser');     //List the address saved by specific user for delivery
 
+    //Carts
+    Route::get('mycart', 'User\CartController@myCart');     //List the cart issued by specific user
+    Route::post('addtocart/{id}', 'User\CartController@addToCart');     //Add item to the cart issued by specific user
+    Route::post('removefromcart/{id}', 'User\CartController@decreaseAQuantity');     //Remove a quantity of a specific item issued by specific user from the cart
+    Route::delete('deletefromcart/{id}', 'User\CartController@deleteAnItem');     //Delete a specific item issued by specific user from the cart
+
+    //Orders
+    Route::post('order', 'User\OrderController@create');     //Add item to the Order issued by specific user
+    Route::delete('cancelorder/{id}', 'User\OrderController@deleteOrder');     //Cancel Specific Order issued by specific user
+
 });
+
 
 Route::get('restaurant','Restaurant\RestaurantController@searchRestaurant');  //List all restaurant with letters supplied in name attribute
 Route::get('branchbyid/{id}', 'Restaurant\BranchesController@branchById');  //List the details of a specific branch

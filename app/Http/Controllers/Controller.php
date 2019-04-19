@@ -22,13 +22,13 @@ class Controller extends BaseController
                 'data' => $data,
                 'status' => 200,
                 'message' => $num.' '.$name.' found'
-            ]);
+            ], 200);
         } else {
             return response()->json([
                 'data' => $data,
                 'status' => 404,
                 'message' => $name.' not found'
-            ]);
+            ], 404);
         }
 
 

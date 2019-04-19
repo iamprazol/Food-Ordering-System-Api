@@ -33,6 +33,10 @@ class User extends Authenticatable
         return $this->hasMany('App\Order');
     }
 
+    public function cart(){
+        return $this->hasMany('App\Cart');
+    }
+
     public function role(){
         return $this->belongsTo('App\Role');
     }

@@ -10,7 +10,7 @@ class Cart extends Model
         'id',
         'user_id',
         'food_id',
-        'restaurant_id',
+        'quantity',
         'price'
     ];
 
@@ -22,7 +22,4 @@ class Cart extends Model
         return $this->belongsTo('App\Food');
     }
 
-    public function restaurant(){
-        return $this->belongsTo('App\Restaurant');
-    }
 }
