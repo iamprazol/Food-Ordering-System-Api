@@ -8,6 +8,7 @@ use App\User;
 use Illuminate\Support\Facades\Auth;
 use Validator;
 use GuzzleHttp\Client;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -21,6 +22,8 @@ class UserController extends Controller
         if(Auth::attempt(['email' => request('email'), 'password' => request('password')])){
             $user = Auth::user();
             $success['token'] = $user->createToken('mandu')->accessToken;
+            $user->api_token = $success['token'];
+            $user->save();
             return response()->json(['success' => $success], 200);
         } else {
             return response()->json(['error' => 'Unauthorised'], 401);
@@ -48,8 +51,22 @@ class UserController extends Controller
         $input['password'] = bcrypt($input['password']);
         $user = User::create($input);
         $success['token'] = $user->createToken('mandu')->accessToken;
+        $user->api_token = $success['token'];
+        $user->save();
         $success['name'] = $user->first_name.' '.$user->last_name;
         return response()->json(['success'=>$success], 200);
+    }
+
+    public function logout(Request $request)
+    {
+        $user = Auth::guard('api')->user();
+
+        if ($user) {
+            $user->api_token = null;
+            $user->save();
+        }
+
+        return response()->json(['data' => 'User logged out.'], 200);
     }
 
     public function index(){
@@ -62,14 +79,44 @@ class UserController extends Controller
 
     }
 
-    public function userById($id){
+    public function myProfile(){
 
-        $user = User::where('id', $id)->get();
+        $user = Auth::user();
 
-        $data = UserResource::collection($user);
+        $data = new UserResource($user);
 
         return $this->responser($user, $data, 'User');
 
+    }
+
+    public function update(Request $request){
+        $user = Auth::user();
+
+        $user->first_name = $request->first_name;
+        $user->last_name = $request->last_name;
+        $user->phone = $request->phone;
+        $user->save();
+
+        $data = new UserResource($user);
+
+        return $this->responser($user, $data, 'User Data Updated and');
+    }
+
+    public function changePassword(Request $request){
+        $user = Auth::user();
+        $oldpass = $request->old_password;
+        $ok = password_verify($oldpass, $user->password);
+        if ( $ok == true) {
+            if($request->new_password == $request->confirm__password){
+                $user->password = bcrypt($request->new_password);
+                $user->save();
+                return response()->json(['data' => $user, 'message' => 'User Password Updated successfully'],200);
+            } else {
+                return response()->json(['message' => 'Password doesn\'t match'],200);
+            }
+        } else {
+            return response()->json(['message' => 'Old password doesn\'t match'],200);
+        }
     }
 
 }

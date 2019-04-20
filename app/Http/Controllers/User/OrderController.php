@@ -15,12 +15,6 @@ use Validator;
 
 class OrderController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth:api');
-        $this->middleware('customer');
-    }
-
     public function orderByUser($id)
     {
 
@@ -57,7 +51,7 @@ class OrderController extends Controller
                     'user_id' => $c->user_id,
                     'food_id' => $c->food_id,
                     'quantity' => $c->quantity,
-                    'address' => $r->address,
+                    'address_id' => $r->address_id,
                     'delivery_date' => $r->delivery_date,
                     'delivery_time' => Carbon::parse($r->delivery_time)->format('H:i:s'),
                     'instruction' => $r->instruction,

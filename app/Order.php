@@ -10,8 +10,8 @@ class Order extends Model
         'id',
         'user_id',
         'food_id',
+        'address_id',
         'quantity',
-        'address',
         'delivery_date',
         'delivery_time',
         'instruction',
@@ -29,4 +29,7 @@ class Order extends Model
         return $this->belongsTo('App\Food');
     }
 
+    public function address(){
+        return $this->belongsTo('App\Address');
+    }
 }

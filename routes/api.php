@@ -20,15 +20,36 @@ Route::middleware('auth:api')->get('/user' , function (Request $request) {
 Route::post('login', 'User\UserController@login');
 Route::post('register', 'User\UserController@register');
 
-Route::get('myorder', 'User\OrderController@myOrder');     //List the order issued by specific user
 
+//Routes for the apis that only customer is capable of accessing
 Route::group(['middleware' => ['auth:api' , 'customer']], function () {
 
     Route::get('userlist','User\UserController@index'); //list all users registered
-    Route::get('userbyid/{id}','User\UserController@userById');     //list specific user detils
     Route::get('orderbyuser/{id}', 'User\OrderController@orderByUser');     //List the order issued by specific user
-    Route::get('favouritebyuser/{id}', 'User\FavouritesController@favouriteByUser');     //List the favourite restaurant and food item by specific user
-    Route::get('addressbyuser/{id}', 'User\AddressController@addressByUser');     //List the address saved by specific user for delivery
+
+
+    //User
+    Route::post('logout', 'User\UserController@logout');
+    Route::get('myprofile','User\UserController@myProfile');     //list specific user detils
+    Route::put('editprofile','User\UserController@update');     //list specific user detils
+    Route::put('changepassword','User\UserController@changePassword');     //list specific user detils
+
+
+    //Address
+    Route::get('addressbyuser/', 'User\AddressController@addressByUser');     //List the address saved by specific user for delivery
+    Route::get('myaddress/', 'User\AddressController@myAddress');     //List the address saved by specific user for delivery
+    Route::post('addaddress/', 'User\AddressController@addAddress');     //List the address saved by specific user for delivery
+    Route::delete('removeaddress/{id}', 'User\AddressController@removeAddress');     //List the address saved by specific user for delivery
+
+
+    //Favourites
+    Route::get('myfavouriterestaurant', 'User\FavouritesController@myFavouriteRestaurant');     //List the favourite restaurant and food item by specific user
+    Route::get('myfavouritefood', 'User\FavouritesController@myFavouriteFood');     //List the favourite restaurant and food item by specific user
+    Route::post('favouritefood/{id}', 'User\FavouritesController@food');     //List the favourite restaurant and food item by specific user
+    Route::post('favouriterestaurant/{id}', 'User\FavouritesController@restaurant');     //List the favourite restaurant and food item by specific user
+    Route::delete('deletefavouritefood/{id}', 'User\FavouritesController@deleteFavouriteFood');     //Delete a specific item issued by specific user from the cart
+    Route::delete('deletefavouriterestaurant/{id}', 'User\FavouritesController@deleteFavouriteRestaurant');     //Delete a specific item issued by specific user from the cart
+
 
     //Carts
     Route::get('mycart', 'User\CartController@myCart');     //List the cart issued by specific user
@@ -36,7 +57,9 @@ Route::group(['middleware' => ['auth:api' , 'customer']], function () {
     Route::post('removefromcart/{id}', 'User\CartController@decreaseAQuantity');     //Remove a quantity of a specific item issued by specific user from the cart
     Route::delete('deletefromcart/{id}', 'User\CartController@deleteAnItem');     //Delete a specific item issued by specific user from the cart
 
+
     //Orders
+    Route::get('myorder', 'User\OrderController@myOrder');     //List the order issued by specific user
     Route::post('order', 'User\OrderController@create');     //Add item to the Order issued by specific user
     Route::delete('cancelorder/{id}', 'User\OrderController@deleteOrder');     //Cancel Specific Order issued by specific user
 

@@ -22,4 +22,8 @@ class Food extends Model
     public function category(){
         return $this->belongsTo('App\Category');
     }
+
+    public function favourite(){
+        return $this->hasMany('App\Favourites');
+    }
 }

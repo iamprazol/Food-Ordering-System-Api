@@ -25,7 +25,7 @@ class Order extends JsonResource
             'foods' => $this->food->food_name,
             'quantity' => $this->quantity,
             'total_price' => $this->total_price,
-            'address' => $this->address,
+            'address' => $this->address->address,
             'delivery_date' => Carbon::parse($this->delivery_date)->format('d/m/Y'),
             'delivery_time' =>   Carbon::parse($this->delivery_time)->format('g:i A'),
             'instruction' => $this->instruction,

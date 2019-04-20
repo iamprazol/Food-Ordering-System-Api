@@ -17,8 +17,8 @@ class CreateOrdersTable extends Migration
             $table->increments('id');
             $table->integer('user_id');
             $table->integer('food_id');
+            $table->integer('address_id');
             $table->string('quantity');
-            $table->string('address');
             $table->date('delivery_date');
             $table->time('delivery_time');
             $table->string('instruction')->nullable();

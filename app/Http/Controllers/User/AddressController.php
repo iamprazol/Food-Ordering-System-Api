@@ -6,7 +6,7 @@ use App\Address;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\User\Address as AddressResource;
-
+use Illuminate\Support\Facades\Auth;
 
 class AddressController extends Controller
 {
@@ -20,4 +20,47 @@ class AddressController extends Controller
         return $this->responser($address, $data, 'Address');
 
     }
+
+    public function myAddress()
+    {
+        $address = Auth::user()->address;
+
+        if(!$address){
+            return response()->json(['status' => 404, 'message' => 'Address not found'],404);
+        }
+
+        $data = AddressResource::collection($address);
+        return $this->responser($address, $data, 'Address');
+
+    }
+
+    public function addAddress(Request $r){
+
+        $user = Auth::user();
+
+        $address = Address::create([
+            'user_id' => $user->id,
+            'address' => $r->address
+        ]);
+
+        $data = new AddressResource($address);
+
+        return response()->json(['data' => $data,'status' => 200,'message' => 'Address added successfully'],200);
+
+    }
+
+    public function removeAddress($id){
+
+        $address = Address::where('user_id', Auth::id())->where('id', $id)->first();
+
+        if(!$address){
+            abort(404);
+        }
+
+        $address->delete();
+
+        return response()->json(['status' => 200,'message' => 'Address deleted successfully'],200);
+
+    }
+
 }
