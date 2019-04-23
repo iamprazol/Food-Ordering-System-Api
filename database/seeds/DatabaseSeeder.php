@@ -11,8 +11,9 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        $this->call([RoleTableSeeder::class]);
         factory('App\User', 10)->create();
-        factory('App\Restaurant', 10)->create();
+        factory('App\Restaurant', 2)->create();
         factory('App\Review', 10)->create();
         factory('App\Branch', 10)->create();
         factory('App\Favourites', 10)->create();
@@ -22,7 +23,7 @@ class DatabaseSeeder extends Seeder
         factory('App\Address', 10)->create();
         factory('App\Cusine', 10)->create();
         factory('App\Category', 10)->create();
+        $this->call([UserTableSeeder::class]);
 
-        $this->call(RoleTableSeeder::class);
     }
 }

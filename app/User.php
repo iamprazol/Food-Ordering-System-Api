@@ -49,7 +49,7 @@ class User extends Authenticatable
         return $this->hasMany('App\Address');
     }
 
-    public function manager(){
-        return $this->hasMany('App\Manager');
+    public function restaurant(){
+        return $this->hasOne('App\Restaurant');
     }
 }

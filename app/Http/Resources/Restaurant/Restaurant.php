@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Restaurant;
 
+use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class Restaurant extends JsonResource
@@ -18,11 +19,11 @@ class Restaurant extends JsonResource
 
         return[
             'id' => $this->id,
-            'cusine_id' => $this->cusine_id,
-            'cusine_name' => $this->cusine->name,
+            'user_id' => $this->user_id,
+            'user_name' => $this->user->first_name.' '.$this->user->last_name,
             'restaurant_name' => $this->restaurant_name,
             'description' => $this->description,
-            'delivery_hours' => $this->delivery_hours,
+            'delivery_hours' => Carbon::parse($this->delivery_from)->format('H:i') .' To '.Carbon::parse($this->delivery_to)->format('H:i'),
             'minimum_order' => $this->minimum_order,
             'cover_pic' => $this->cover_pic,
             'picture' => $this->picture,

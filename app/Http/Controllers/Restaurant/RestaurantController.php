@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Restaurant;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Restaurant;
@@ -11,6 +12,8 @@ use App\Manager;
 use App\User;
 use Illuminate\Support\Facades\Auth;
 use Validator;
+use Image;
+use Session;
 
 
 class RestaurantController extends Controller
@@ -51,39 +54,91 @@ class RestaurantController extends Controller
 
     }
 
-    public function createRestaurant(Request $request){
-        $manager = Manager::where('user_id', Auth::id())->first();
+    public function index(Restaurant $model){
+        return view('restaurant.detail.show', ['restaurants' => $model->paginate(15)]);
+    }
+
+    public function edit(){
+        $manager = Auth::user()->restaurant;
 
         if(!$manager){
-
-            $validator = Validator::make($request->all(), [
-                'restaurant_name' => 'required',
-                'description' => 'required',
-                'delivery_hours' => 'required',
-                'minimum_order' => 'required',
-                'cover_pic' => 'required',
-                'picture' => 'required',
-                'address' => 'required'
-            ]);
-            if($validator->fails()){
-                return response()->json(['error' => $validator->errors()], 401);
-            }
-
-            $restaurant = Restaurant::create($request->all());
-
-            Manager::create([
-                'user_id' => Auth::id(),
-                'restaurant_id' => $restaurant->id
-            ]);
-
-            $data = new RestaurantResource($restaurant);
-            return $this->responser($restaurant, $data, 'Restaurant Created');
-
+            return view('restaurant.detail.create');
         } else {
-            $restaurant = Restaurant::where('id', $manager->restaurant_id)->first();
-            $data = new RestaurantResource($restaurant);
-            return response()->json(['data' =>$data, 'message' => 'You already have one restaurant'], 406);
+            return view('restaurant.detail.edit')->with('restaurant', $manager);
         }
+    }
+
+    public function storeRestaurant(Request $request){
+
+        $this->Validate($request,[
+            'restaurant_name' => 'required|string|min:2',
+            'description' => 'required|string|min:30',
+            'picture' =>'required|max:15360',
+            'cover_pic' => 'required|max:15360',
+            'address' => 'required'
+        ]);
+
+        $picfilename = time() . '.' . $request->file('picture')->getClientOriginalExtension();
+        $picpath = public_path('/images/restaurant/' . $picfilename);
+        Image::make($request->file('picture'))->save($picpath);
+
+        $coverfilename = time() . '.' . $request->file('cover_pic')->getClientOriginalExtension();
+        $path = public_path('/images/restaurant/' . $coverfilename);
+        Image::make($request->file('cover_pic'))->save($path);
+
+        $restaurant = Restaurant::create([
+            'user_id' => Auth::id(),
+            'restaurant_name' => $request->restaurant_name,
+            'description' => $request->description,
+            'minimum_order' => $request->minimum_order,
+            'picture' => $picfilename,
+            'cover_pic' => $coverfilename,
+            'address' => $request->address,
+            'delivery_from' => Carbon::parse($request->delivery_from)->format('H:i:s'),
+            'delivery_to' => Carbon::parse($request->delivery_)->format('H:i:s'),
+            'discount' => $request->discount,
+            'additional_charge' => $request->additional_charge,
+            'vat' => $request->vat,
+        ]);
+
+        Session::flash('success', 'Restaurant details added successfully');
+        return redirect()->route('restaurant.edit');
+    }
+
+    public function update(Request $request, $id){
+        $this->Validate($request,[
+            'restaurant_name' => 'required|string|min:2',
+            'description' => 'required|string|min:30',
+            'picture' =>'required|max:15360',
+            'cover_pic' => 'required|max:15360',
+            'address' => 'required'
+        ]);
+
+        $picfilename = time() . '.' . $request->file('picture')->getClientOriginalExtension();
+        $picpath = public_path('/images/restaurant/' . $picfilename);
+        Image::make($request->file('picture'))->save($picpath);
+
+        $coverfilename = time() . '.' . $request->file('cover_pic')->getClientOriginalExtension();
+        $path = public_path('/images/restaurant/' . $coverfilename);
+        Image::make($request->file('cover_pic'))->save($path);
+
+        $restaurant = Restaurant::find($id);
+        $restaurant->restaurant_name = $request->restaurant_name;
+        $restaurant->description = $request->description;
+        $restaurant->delivery_from = $request->delivery_from;
+        $restaurant->delivery_to = $request->delivery_to;
+        $restaurant->minimum_order = $request->minimum_order;
+        $restaurant->discount = $request->discount;
+        $restaurant->vat = $request->vat;
+        $restaurant->additional_charge = $request->additional_charge;
+        $restaurant->address = $request->address;
+        $restaurant->cover_pic = $coverfilename;
+        $restaurant->picture = $picfilename;
+
+        $restaurant->save();
+
+        Session::flash('success', 'Restaurant details updated successfully');
+        return redirect()->route('restaurant.edit');
     }
 
 }

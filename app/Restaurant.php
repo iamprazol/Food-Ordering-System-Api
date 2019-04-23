@@ -8,11 +8,12 @@ class Restaurant extends Model
 {
     protected $fillable = [
         'id',
-        'cusine_id',
+        'user_id',
         'restaurant_name',
         'address',
         'description',
-        'delivery_hours',
+        'delivery_from',
+        'delivery_to',
         'minimum_order',
         'cover_pic',
         'picture',
@@ -23,8 +24,8 @@ class Restaurant extends Model
         'vat'
     ];
 
-    public function cusine(){
-        return $this->belongsTo('App\Cusine');
+    public function User(){
+        return $this->belongsTo('App\User');
     }
 
     public function food(){

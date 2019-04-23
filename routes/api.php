@@ -68,9 +68,7 @@ Route::group(['middleware' => ['auth:api' , 'customer']], function () {
 
 //Routes only restaurant user can access
 Route::group(['middleware' => ['auth:api' , 'manager']], function () {
-    Route::get('restaurant', 'Restaurant\RestaurantController@searchRestaurant');  //List all restaurant with letters supplied in name attribute
     Route::post('createuser', 'Restaurant\ManagerController@createUser');
-    Route::post('createrestaurant', 'Restaurant\RestaurantController@createRestaurant');
     Route::get('listmanagers', 'Restaurant\ManagerController@listManagers');
 
 });
@@ -82,6 +80,7 @@ Route::get('foodofrestaurant/{id}','Restaurant\FoodController@foodOfRestaurant')
 Route::get('foodbycategory/{id}','Restaurant\FoodController@foodByCategory');  //List the foods available in a specific category
 Route::get('cusine','Restaurant\CusineController@index');  //List all the cusines
 
+Route::get('restaurant', 'Restaurant\RestaurantController@searchRestaurant');  //List all restaurant with letters supplied in name attribute
 
 
 /*Route::get('/admin', function(){
