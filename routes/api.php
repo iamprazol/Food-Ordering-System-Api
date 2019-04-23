@@ -66,7 +66,14 @@ Route::group(['middleware' => ['auth:api' , 'customer']], function () {
 });
 
 
-Route::get('restaurant','Restaurant\RestaurantController@searchRestaurant');  //List all restaurant with letters supplied in name attribute
+//Routes only restaurant user can access
+Route::group(['middleware' => ['auth:api' , 'manager']], function () {
+    Route::get('restaurant', 'Restaurant\RestaurantController@searchRestaurant');  //List all restaurant with letters supplied in name attribute
+    Route::post('createuser', 'Restaurant\ManagerController@createUser');
+    Route::post('createrestaurant', 'Restaurant\RestaurantController@createRestaurant');
+    Route::get('listmanagers', 'Restaurant\ManagerController@listManagers');
+
+});
 Route::get('branchbyid/{id}', 'Restaurant\BranchesController@branchById');  //List the details of a specific branch
 Route::get('branchofrestaurant/{id}','Restaurant\BranchesController@branchOfRestaurant'); //List the branches of a specific restaurant
 Route::get('reviewofrestaurant/{id}','Restaurant\ReviewController@reviewOfRestaurant');  //List the reviews of a specific restaurant

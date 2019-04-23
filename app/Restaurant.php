@@ -39,16 +39,8 @@ class Restaurant extends Model
         return $this->hasMany('App\Review');
     }
 
-    public function cart(){
-        return $this->hasMany('App\Cart');
-    }
-
-    public function special(){
-        return $this->hasMany('App\Special');
-    }
-
-    public function favourites(){
-        return $this->hasMany('App\Favourites');
+    public function manager(){
+        return $this->hasMany('App\Manager');
     }
 
 }
