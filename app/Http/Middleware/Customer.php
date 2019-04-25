@@ -10,19 +10,18 @@ class Customer
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
+     * @param  \Illuminate\Http\Request $request
+     * @param  \Closure $next
      * @return mixed
      */
     public function handle($request, Closure $next)
     {
-        if (Auth::check() && Auth::user()->role->role == 'user'){
+        if (Auth::check() && Auth::user()->role->role == 'user') {
             return $next($request);
         } elseif (Auth::check() && Auth::user()->role->role == 'delivery boy') {
             return redirect('/delivery');
-        } elseif (Auth::check() && Auth::user()->role->role == 'admin'){
-            return redirect('/admin');
         } else {
-            return redirect('/restaurant');
-        }    }
+            return redirect('/admin/home');
+        }
+    }
 }

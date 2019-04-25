@@ -7,6 +7,7 @@ use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use App\Restaurant;
+use Illuminate\Support\Facades\Auth;
 
 class Controller extends BaseController
 {
@@ -30,8 +31,6 @@ class Controller extends BaseController
                 'message' => $name.' not found'
             ], 404);
         }
-
-
     }
 
     public static function closest($lat, $lng, $max_distance = 50, $max_locations = 50, $units = 'miles')

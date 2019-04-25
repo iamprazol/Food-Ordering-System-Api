@@ -119,35 +119,44 @@
                                     {{ __('Restaurant profile') }}
                                 </a>
                             </li>
+                            @if(auth()->user()->restaurant || auth()->user()->role_id == 1)
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('restaurant.show') }}">
                                     {{ __('Restaurant Management') }}
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="{{' #' }}">
+                                <a class="nav-link" href="{{ route('category.show') }}">
                                     {{ __('Food Category') }}
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="{{' #' }}">
+                                <a class="nav-link" href="{{ route('food.show') }}">
                                     {{ __('Foods') }}
                                 </a>
                             </li>
 
                             <li class="nav-item">
-                                <a class="nav-link" href="{{' #' }}">
+                                <a class="nav-link" href="{{ route('branches.show') }}">
                                     {{ __('Branches') }}
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="{{' #' }}">
+                                <a class="nav-link" href="{{ route('reviews.show') }}">
                                     {{ __('Reviews') }}
                                 </a>
                             </li>
+                                @endif
                         </ul>
                     </div>
                 </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ '#' }}">
+                        <i class="ni ni-bullet-list-67"></i> {{ __('Orders') }}
+                    </a>
+                </li>
+
 
                 <li class="nav-item">
                     <a class="nav-link" href="{{ '#' }}">

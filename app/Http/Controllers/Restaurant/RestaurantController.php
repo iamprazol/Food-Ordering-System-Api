@@ -86,7 +86,7 @@ class RestaurantController extends Controller
         $path = public_path('/images/restaurant/' . $coverfilename);
         Image::make($request->file('cover_pic'))->save($path);
 
-        $restaurant = Restaurant::create([
+        Restaurant::create([
             'user_id' => Auth::id(),
             'restaurant_name' => $request->restaurant_name,
             'description' => $request->description,
@@ -106,7 +106,7 @@ class RestaurantController extends Controller
     }
 
     public function update(Request $request, $id){
-        $this->Validate($request,[
+        $this->Validate($request ,[
             'restaurant_name' => 'required|string|min:2',
             'description' => 'required|string|min:30',
             'picture' =>'required|max:15360',
