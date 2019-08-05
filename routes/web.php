@@ -21,14 +21,17 @@ Route::middleware(['auth','admin'])->prefix('admin')->group (function () {
 
     Route::get('/home', 'HomeController@index')->name('home');
     Route::resource('user', 'UserController', ['except' => ['show']]);
-	Route::get('profile', ['as' => 'profile.edit', 'uses' => 'ProfileController@edit']);
+    Route::get('user/manager', ['as' => 'user.managers', 'uses' => 'UserController@manager']);
+    Route::get('user/customer', ['as' => 'user.customers', 'uses' => 'UserController@customer']);
+    Route::get('user/delivery', ['as' => 'user.delivery', 'uses' => 'Restaurant\DeliveryController@index']);
+    Route::get('profile', ['as' => 'profile.edit', 'uses' => 'ProfileController@edit']);
 	Route::put('profile', ['as' => 'profile.update', 'uses' => 'ProfileController@update']);
 	Route::put('profile/password', ['as' => 'profile.password', 'uses' => 'ProfileController@password']);
 
     Route::get('restaurant', ['as' => 'restaurant.show', 'uses' => 'Restaurant\RestaurantController@index']);
-    Route::get('restaurant/profile', ['as' => 'restaurant.edit', 'uses' => 'Restaurant\RestaurantController@edit']);
+    Route::get('restaurant/profile/{id}', ['as' => 'restaurant.edit', 'uses' => 'Restaurant\RestaurantController@edit']);
     Route::post('restaurant/update/{id}', ['as' => 'restaurant.update', 'uses' => 'Restaurant\RestaurantController@update']);
-    Route::post('restaurant/store', ['as' => 'restaurant.store', 'uses' => 'Restaurant\RestaurantController@storeRestaurant']);
+    Route::post('restaurant/store/{id}', ['as' => 'restaurant.store', 'uses' => 'Restaurant\RestaurantController@storeRestaurant']);
 
     Route::get('food/category', ['as' => 'category.show', 'uses' => 'Restaurant\CategoryController@show']);
     Route::get('food/category/search', ['uses' => 'Restaurant\CategoryController@search', 'as' => 'category.search']);
@@ -56,6 +59,13 @@ Route::middleware(['auth','admin'])->prefix('admin')->group (function () {
     Route::get('restaurant/reviews', ['as' => 'reviews.show', 'uses' => 'Restaurant\ReviewController@show']);
     Route::get('restaurant/reviews/search', ['uses' => 'Restaurant\ReviewController@search', 'as' => 'reviews.search']);
     Route::delete('restaurant/reviews/destroy/{id}', ['as' => 'reviews.destroy', 'uses' => 'Restaurant\ReviewController@destroy']);
+
+    Route::get('delivery/search', ['uses' => 'Restaurant\DeliveryController@search', 'as' => 'delivery.search']);
+    Route::get('delivery/create/{id}', ['as' => 'delivery.create', 'uses' => 'Restaurant\DeliveryController@create']);
+    Route::post('delivery/store', ['as' => 'delivery.store', 'uses' => 'Restaurant\DeliveryController@storeDelivery']);
+    Route::get('delivery/edit/{id}', ['as' => 'delivery.edit', 'uses' => 'Restaurant\DeliveryController@edit']);
+    Route::post('delivery/update/{id}', ['as' => 'delivery.update', 'uses' => 'Restaurant\DeliveryController@updateDelivery']);
+    Route::delete('delivery/destroy/{id}', ['as' => 'delivery.destroy', 'uses' => 'Restaurant\DeliveryController@destroy']);
 
     Route::get('logout', '\App\Http\Controllers\Auth\LoginController@logout');
 

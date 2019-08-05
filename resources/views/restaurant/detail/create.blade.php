@@ -17,7 +17,7 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <form method="post" action="{{ route('restaurant.store') }}" enctype="multipart/form-data" autocomplete="off">
+                        <form method="post" action="{{ route('restaurant.store', ['id' => $users->id]) }}" enctype="multipart/form-data" autocomplete="off">
                             @csrf
 
                             <h6 class="heading-small text-muted mb-4">{{ __('Restaurant information') }}</h6>

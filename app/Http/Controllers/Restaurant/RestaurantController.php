@@ -58,17 +58,17 @@ class RestaurantController extends Controller
         return view('restaurant.detail.show', ['restaurants' => $model->paginate(15)]);
     }
 
-    public function edit(){
-        $manager = Auth::user()->restaurant;
-
+    public function edit($id){
+        $manager = Restaurant::where('user_id', $id)->first();
+        $user  = User::where('id', $id)->first();
         if(!$manager){
-            return view('restaurant.detail.create');
+            return view('restaurant.detail.create')->with('users', $user);
         } else {
             return view('restaurant.detail.edit')->with('restaurant', $manager);
         }
     }
 
-    public function storeRestaurant(Request $request){
+    public function storeRestaurant(Request $request, $id){
 
         $this->Validate($request,[
             'restaurant_name' => 'required|string|min:2',
@@ -86,8 +86,8 @@ class RestaurantController extends Controller
         $path = public_path('/images/restaurant/' . $coverfilename);
         Image::make($request->file('cover_pic'))->save($path);
 
-        Restaurant::create([
-            'user_id' => Auth::id(),
+        $restaurant = Restaurant::create([
+            'user_id' => $id,
             'restaurant_name' => $request->restaurant_name,
             'description' => $request->description,
             'minimum_order' => $request->minimum_order,
@@ -102,14 +102,15 @@ class RestaurantController extends Controller
         ]);
 
         Session::flash('success', 'Restaurant details added successfully');
-        return redirect()->route('restaurant.edit');
+        return redirect()->route('restaurant.edit', ['id' => $restaurant->user_id]);
     }
 
-    public function update(Request $request, $id){
-        $this->Validate($request ,[
+    public function update(Request $request, $id)
+    {
+        $this->Validate($request, [
             'restaurant_name' => 'required|string|min:2',
             'description' => 'required|string|min:30',
-            'picture' =>'required|max:15360',
+            'picture' => 'required|max:15360',
             'cover_pic' => 'required|max:15360',
             'address' => 'required'
         ]);
@@ -138,7 +139,11 @@ class RestaurantController extends Controller
         $restaurant->save();
 
         Session::flash('success', 'Restaurant details updated successfully');
-        return redirect()->route('restaurant.edit');
+        if (Auth::user()->role_id == 1) {
+            return redirect()->route('restaurant.show');
+        } else {
+            return redirect()->route('restaurant.edit', ['id' => $restaurant->user_id]);
+        }
     }
 
 }

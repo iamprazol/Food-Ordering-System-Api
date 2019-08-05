@@ -12,9 +12,6 @@
                             <div class="col-8">
                                 <h3 class="mb-0">{{ __('Restaurant') }}</h3>
                             </div>
-                            <div class="col-4 text-right">
-                                <a href="{{ '#' }}" class="btn btn-sm btn-primary">{{ __('Add user') }}</a>
-                            </div>
                         </div>
                     </div>
 
@@ -60,26 +57,18 @@
                                     <td>{{ $restaurant->discount }}</td>
                                     <td>{{ $restaurant->vat }}</td>
                                     <td>{{ $restaurant->additional_charge }}</td>
-                                    <td>{{ $restaurant->description }}</td>
+                                    <td>{{ str_limit($restaurant->description, $limit = 50, $end = '...') }}</td>
                                     <td class="text-right">
                                         <div class="dropdown">
                                             <a class="btn btn-sm btn-icon-only text-light" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                 <i class="fas fa-ellipsis-v"></i>
                                             </a>
                                             <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-                                                {{--}}@if ($user->id != auth()->id())
-                                                    <form action="{{ route('user.destroy', $user) }}" method="post">
+                                                    <form action="{{ '#' }}" method="post">
                                                         @csrf
                                                         @method('delete')
-
-                                                        <a class="dropdown-item" href="{{ route('user.edit', $user) }}">{{ __('Edit') }}</a>
-                                                        <button type="button" class="dropdown-item" onclick="confirm('{{ __("Are you sure you want to delete this user?") }}') ? this.parentElement.submit() : ''">
-                                                            {{ __('Delete') }}
-                                                        </button>
                                                     </form>
-                                                @else
-                                                    <a class="dropdown-item" href="{{ route('profile.edit') }}">{{ __('Edit') }}</a>
-                                                @endif--}}
+                                                    <a class="dropdown-item" href="{{ route('restaurant.edit', ['id' => $restaurant->user_id]) }}">{{ __('Edit') }}</a>
                                             </div>
                                         </div>
                                     </td>

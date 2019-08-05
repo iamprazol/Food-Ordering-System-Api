@@ -4,7 +4,11 @@ namespace App\Http\Controllers;
 
 use App\User;
 use App\Http\Requests\UserRequest;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use App\Role;
+use App\Delivery;
+use App\Restaurant;
 
 class UserController extends Controller
 {
@@ -14,9 +18,22 @@ class UserController extends Controller
      * @param  \App\User  $model
      * @return \Illuminate\View\View
      */
-    public function index(User $model)
+    public function index()
     {
-        return view('users.index', ['users' => $model->paginate(15)]);
+        $user = User::where('role_id', 1)->orderBy('first_name', 'asc')->paginate(15);
+        return view('users.index')->with('users', $user);
+    }
+
+    public function manager()
+    {
+        $user = User::where('role_id', 2)->orderBy('first_name', 'asc')->paginate(15);
+        return view('users.manager')->with('users', $user);
+    }
+
+    public function customer()
+    {
+        $user = User::where('role_id', 4)->orderBy('first_name', 'asc')->paginate(15);
+        return view('users.customer')->with('users', $user);
     }
 
     /**
@@ -26,7 +43,12 @@ class UserController extends Controller
      */
     public function create()
     {
-        return view('users.create');
+        if(Auth::user()->restaurant) {
+            return view('restaurant.delivery.create');
+        } else {
+            $role = Role::all();
+            return view('users.create')->with('roles', $role->except(['id' =>  3]));
+        }
     }
 
     /**
@@ -39,8 +61,13 @@ class UserController extends Controller
     public function store(UserRequest $request, User $model)
     {
         $model->create($request->merge(['password' => Hash::make($request->get('password'))])->all());
-
-        return redirect()->route('user.index')->withStatus(__('User successfully created.'));
+        if($request->role_id == 1) {
+            return redirect()->route('user')->withStatus(__('Super Admin successfully created.'));
+        } elseif($request->role_id == 2){
+            return redirect()->route('user.managers')->withStatus(__('Restaurant Manager successfully created.'));
+        } else {
+            return redirect()->route('user.customers')->withStatus(__('Customer Account successfully created.'));
+        }
     }
 
     /**
@@ -51,7 +78,8 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        return view('users.edit', compact('user'));
+        $role = Role::all();
+        return view('users.edit', compact('user'))->with('roles', $role->except(['id' =>  3]));
     }
 
     /**
@@ -68,7 +96,13 @@ class UserController extends Controller
                 ->except([$request->get('password') ? '' : 'password']
         ));
 
-        return redirect()->route('user.index')->withStatus(__('User successfully updated.'));
+        if($request->role_id == 1) {
+            return redirect()->route('user')->withStatus(__(' User successfully Updated.'));
+        } elseif($request->role_id == 2){
+            return redirect()->route('user.managers')->withStatus(__('User successfully Updated.'));
+        } else {
+            return redirect()->route('user.customers')->withStatus(__('User successfully Updated.'));
+        }
     }
 
     /**
@@ -77,10 +111,18 @@ class UserController extends Controller
      * @param  \App\User  $user
      * @return \Illuminate\Http\RedirectResponse
      */
+
     public function destroy(User  $user)
     {
+        $user_id = $user->id;
         $user->delete();
 
-        return redirect()->route('user.index')->withStatus(__('User successfully deleted.'));
+        if($user_id == 1) {
+            return redirect()->route('user')->withStatus(__('Super Admin successfully created.'));
+        } elseif($user_id == 2){
+            return redirect()->route('user.managers')->withStatus(__('Restaurant Manager successfully created.'));
+        } else {
+            return redirect()->route('user.customers')->withStatus(__('Customer Account successfully created.'));
+        }
     }
 }
