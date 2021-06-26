@@ -32,14 +32,6 @@
                             @endif
 
                             <div class="pl-lg-4">
-                                <div class="form-group">
-                                    <label class="form-control-label" for="restaurant_id">{{ __('Restaurant Name') }}</label>
-                                    <div class="form-group">
-                                        <select name="restaurant_id" class="custom-select" id="restaurant_id" required>
-                                            <option value="{{ $restaurants->id }}" selected="">{{ $restaurants->restaurant_name }}</option>
-                                        </select>
-                                    </div>
-                                </div>
 
                                 <div class="form-group{{ $errors->has('category_name') ? ' has-danger' : '' }}">
                                     <label class="form-control-label" for="category_name">{{ __('Category Name') }}</label>
@@ -49,6 +41,17 @@
                                             <strong>{{ $errors->first('category_name') }}</strong>
                                         </span>
                                     @endif
+                                </div>
+                                <div class="form-group row">
+                                    <label class="form-control-label" for="picture">{{ __('Picture') }}</label>
+                                    <div class="col-md-6">
+                                        @if ($errors->has('picture'))
+                                            <span class="invalid-feedback">
+                                                        <strong>{{ $errors->first('picture', 'Image size must be less than 15 MB')}}</strong>
+                                                    </span>
+                                        @endif
+                                        <input type="file" id="picture" name="picture" class="form-control{{ $errors->has('picture') ? ' is-invalid' : '' }}"  required/>
+                                    </div>
                                 </div>
                                 <div class="text-center">
                                     <button type="submit" class="btn btn-success mt-4">{{ __('Save') }}</button>

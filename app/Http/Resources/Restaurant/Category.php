@@ -19,8 +19,8 @@ class Category extends JsonResource
 
         return [
             'id' => $this->id,
-            'restaurant' => $this->restaurant_id,
             'category' => $this->category_name,
+            'category_pic' => $this->category_pic,
             'foods' => FoodResource::collection($this->food),
         ];
     }

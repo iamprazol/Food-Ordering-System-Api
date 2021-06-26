@@ -61,7 +61,7 @@ class FoodController extends Controller
 
     public function create($id){
         $restaurant = Restaurant::find($id);
-        $category = Category::where('restaurant_id', $id)->get();
+        $category = Category::orderBy('category_name', 'asc')->get();
         return view('restaurant.foods.create')->with('restaurants', $restaurant)->with('categories', $category);
     }
 

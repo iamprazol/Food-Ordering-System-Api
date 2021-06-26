@@ -119,6 +119,11 @@
                                             {{ __('Managers') }}
                                         </a>
                                     </li>
+                                    <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('category.show') }}">
+                                        {{ __('Food Category') }}
+                                    </a>
+                                </li>
                                 @endif
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ route('user.delivery') }}">
@@ -153,11 +158,6 @@
                             @endif
 
                             @if(auth()->user()->restaurant || auth()->user()->role_id == 1)
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('category.show') }}">
-                                        {{ __('Food Category') }}
-                                    </a>
-                                </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ route('food.show') }}">
                                         {{ __('Foods') }}

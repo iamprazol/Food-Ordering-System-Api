@@ -8,13 +8,9 @@ class Category extends Model
 {
     protected $fillable = [
         'id',
-        'restaurant_id',
-        'category_name'
+        'category_name',
+        'category_pic'
     ];
-
-    public function restaurant(){
-        return $this->belongsTo('App\Restaurant');
-    }
 
     public function food(){
         return $this->hasMany('App\Food');

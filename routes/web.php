@@ -35,7 +35,7 @@ Route::middleware(['auth','admin'])->prefix('admin')->group (function () {
 
     Route::get('food/category', ['as' => 'category.show', 'uses' => 'Restaurant\CategoryController@show']);
     Route::get('food/category/search', ['uses' => 'Restaurant\CategoryController@search', 'as' => 'category.search']);
-    Route::get('food/category/create/{id}', ['as' => 'category.create', 'uses' => 'Restaurant\CategoryController@create']);
+    Route::get('food/category/create', ['as' => 'category.create', 'uses' => 'Restaurant\CategoryController@create']);
     Route::post('food/category/store', ['as' => 'category.store', 'uses' => 'Restaurant\CategoryController@storeCategory']);
     Route::delete('food/category/destroy/{id}', ['as' => 'category.destroy', 'uses' => 'Restaurant\CategoryController@destroy']);
 
