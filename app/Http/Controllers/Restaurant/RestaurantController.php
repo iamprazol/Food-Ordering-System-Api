@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Restaurant;
 use App\Http\Resources\Restaurant\Restaurant as RestaurantResource;
+use App\Http\Resources\Restaurant\Category as CategoryResource;
+use App\Http\Controllers\Restaurant\FoodController;
 use App\Cusine;
 use App\Manager;
 use App\User;
@@ -14,6 +16,8 @@ use Illuminate\Support\Facades\Auth;
 use Validator;
 use Image;
 use Session;
+use App\Food;
+use App\Category;
 
 
 class RestaurantController extends Controller
@@ -146,4 +150,32 @@ class RestaurantController extends Controller
         }
     }
 
+    public function viewRestaurant( $id ) {
+        $restaurant = Restaurant::where('id', $id )->get();
+
+        $data = RestaurantResource::collection($restaurant);
+
+        return $this->responser($restaurant, $data, 'restaurants');
+
+    }
+
+    public function categoryInRestaurant( $id ) {
+        $foods = Food::where('restaurant_id', $id )->orderBy('category_id', 'asc' )->get();
+
+        $category_id = [];
+        $categories = [];
+
+        foreach ($foods as $food ) {
+
+            if( !in_array( $food->category_id, $category_id ) ) {
+                $category = Category::where('id', $food->category_id)->first();
+                array_push( $category_id, $food->category_id);
+                $categories[] = $category;
+            }
+        }
+
+
+        $data = CategoryResource::collection( collect( $categories ));
+        return $this->responser(collect($categories), $data, 'Categories');
+    }
 }

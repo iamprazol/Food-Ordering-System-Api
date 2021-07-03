@@ -14,6 +14,16 @@ use Session;
 
 class FoodController extends Controller
 {
+    public function AllFoods(){
+
+        $food = Food::orderBy('food_name', 'asc')->get();
+
+        $data = FoodResource::collection($food);
+
+        return $this->responser($food, $data, 'Foods');
+
+    }
+
     public function foodOfRestaurant($id){
 
         $food = Food::where('restaurant_id', $id)->orderBy('food_name', 'asc')->get();

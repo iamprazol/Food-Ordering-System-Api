@@ -16,12 +16,19 @@ class Category extends JsonResource
     public function toArray($request)
     {
         //return parent::toArray($request);
+        $foods = [];
+        foreach ( $this->food as $food) {
+
+            if( $food->restaurant_id == $request['id'] ) {
+                $foods[] = $food;
+            }
+        }
 
         return [
             'id' => $this->id,
             'category' => $this->category_name,
             'category_pic' => $this->category_pic,
-            'foods' => FoodResource::collection($this->food),
+            'foods' => FoodResource::collection(collect($foods)),
         ];
     }
 }
