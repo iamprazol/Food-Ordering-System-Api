@@ -36,13 +36,31 @@ class RestaurantController extends Controller
         }
 
         if($filters->has('address')){
-            $restaurant->where('address', $filters->input('address'));
+            $restaurant->where('address', 'like', '%'. $filters->input('address').'%');
         }
 
         if($filters->has('cusine')) {
             $cusine = Cusine::where('name', $filters->input('cusine'))->first();
             if ($cusine) {
                 $restaurant->where('cusine_id', $cusine->id);
+            }
+        }
+
+        if($filters->has('category')) {
+            $category = Category::where('id', $filters->input('category'))->first();
+
+            if ( $category ) {
+                $foodsInCategory = Food::where('category_id', $category->id)->orderBy('food_name', 'asc')->get();
+
+                $restaurantIdArray = array();
+
+                foreach ( $foodsInCategory as $food ) {
+                    if( !in_array( $food->restaurant_id, $restaurantIdArray ) ) {
+                        $restaurantIdArray[] = $food->restaurant_id;
+                    }
+                }
+
+                $restaurant->whereIn('id', $restaurantIdArray);
             }
         }
 
