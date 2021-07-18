@@ -36,17 +36,17 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function register(Request $request){
-        $validator = Validator::make($request->all(), [
-            'first_name' => 'required',
-            'last_name' => 'required',
-            'email' => 'required|email',
-            'password' => 'required',
-            'c_password' => 'required|same:password',
-            'phone' => 'required|numeric',
-        ]);
-        if($validator->fails()){
-            return response()->json(['error' => $validator->errors()], 401);
-        }
+        // $validator = Validator::make($request->all(), [
+        //     'first_name' => 'required',
+        //     'last_name' => 'required',
+        //     'email' => 'required|email',
+        //     'password' => 'required',
+        //     'c_password' => 'required|same:password',
+        //     'phone' => 'required|numeric',
+        // ]);
+        // if($validator->fails()){
+        //     return response()->json(['error' => $validator->errors()], 401);
+        // }
         $input = $request->all();
         $input['password'] = bcrypt($input['password']);
         $user = User::create($input);
