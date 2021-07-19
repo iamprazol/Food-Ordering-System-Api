@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "78ce997c1bd28156accf74170248e7b5",
+    "content-hash": "8a752ebbca0ae35905c26b1c06452b1f",
     "packages": [
         {
             "name": "defuse/php-encryption",
@@ -768,6 +768,7 @@
                     "email": "jakub.onderka@gmail.com"
                 }
             ],
+            "abandoned": "php-parallel-lint/php-console-color",
             "time": "2018-09-29T17:23:10+00:00"
         },
         {
@@ -814,6 +815,7 @@
                 }
             ],
             "description": "Highlight PHP code in terminal",
+            "abandoned": "php-parallel-lint/php-console-highlighter",
             "time": "2018-09-29T18:48:56+00:00"
         },
         {
@@ -2661,25 +2663,25 @@
         },
         {
             "name": "spatie/laravel-cors",
-            "version": "1.3.2",
+            "version": "1.7.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/laravel-cors.git",
-                "reference": "965284ec197853eb3d66ecae567af5403d640418"
+                "reference": "3ef534929531c609bc395610590b5bba204a4b44"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/laravel-cors/zipball/965284ec197853eb3d66ecae567af5403d640418",
-                "reference": "965284ec197853eb3d66ecae567af5403d640418",
+                "url": "https://api.github.com/repos/spatie/laravel-cors/zipball/3ef534929531c609bc395610590b5bba204a4b44",
+                "reference": "3ef534929531c609bc395610590b5bba204a4b44",
                 "shasum": ""
             },
             "require": {
-                "illuminate/support": "5.5.*|5.6.*|5.7.*",
-                "php": "^7.0"
+                "illuminate/support": "5.5.*|5.6.*|5.7.*|5.8.*|^6.0",
+                "php": "^7.2|^8.0"
             },
             "require-dev": {
-                "orchestra/testbench": "3.5.*|3.6.*|3.7.*",
-                "phpunit/phpunit": "^6.5.4|^7.0"
+                "orchestra/testbench": "3.5.*|3.6.*|3.7.*|3.8.*|^4.0",
+                "phpunit/phpunit": "^8.0"
             },
             "type": "library",
             "extra": {
@@ -2716,7 +2718,8 @@
                 "request",
                 "spatie"
             ],
-            "time": "2019-01-28T08:51:09+00:00"
+            "abandoned": "laravel/framework",
+            "time": "2021-06-10T21:37:38+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",
@@ -4075,6 +4078,7 @@
                 "psr",
                 "psr-7"
             ],
+            "abandoned": "laminas/laminas-diactoros",
             "time": "2018-09-05T19:29:37+00:00"
         }
     ],
@@ -4303,6 +4307,7 @@
                 "faker",
                 "fixtures"
             ],
+            "abandoned": true,
             "time": "2018-07-12T10:23:15+00:00"
         },
         {
@@ -5097,6 +5102,7 @@
             "keywords": [
                 "tokenizer"
             ],
+            "abandoned": true,
             "time": "2018-10-30T05:52:18+00:00"
         },
         {
@@ -5794,12 +5800,12 @@
             "version": "1.4.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/webmozart/assert.git",
+                "url": "https://github.com/webmozarts/assert.git",
                 "reference": "83e253c8e0be5b0257b881e1827274667c5c17a9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/webmozart/assert/zipball/83e253c8e0be5b0257b881e1827274667c5c17a9",
+                "url": "https://api.github.com/repos/webmozarts/assert/zipball/83e253c8e0be5b0257b881e1827274667c5c17a9",
                 "reference": "83e253c8e0be5b0257b881e1827274667c5c17a9",
                 "shasum": ""
             },
@@ -5850,5 +5856,5 @@
         "php": "^7.1.3"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.0.0"
+    "plugin-api-version": "1.1.0"
 }
