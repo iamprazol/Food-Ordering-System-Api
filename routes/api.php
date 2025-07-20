@@ -82,7 +82,7 @@ Route::get('foodofrestaurant/{id}','Restaurant\FoodController@foodOfRestaurant')
 Route::get('foodbycategory/{id}','Restaurant\FoodController@foodByCategory');  //List the foods available in a specific category
 Route::get('cusine','Restaurant\CusineController@index');  //List all the cusines
 
-Route::get('restaurants', 'Restaurant\RestaurantController@searchRestaurant');  //List all restaurant with letters supplied in name attribute
+Route::get('restaurants', 'Restaurant\RestaurantController@allRestaurants');  //List all restaurant with letters supplied in name attribute
 Route::get('foods', 'Restaurant\FoodController@AllFoods');  //List all restaurant with letters supplied in name attribute
 
 /*Route::get('/admin', function(){

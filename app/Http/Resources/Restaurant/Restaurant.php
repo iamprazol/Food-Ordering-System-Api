@@ -20,7 +20,6 @@ class Restaurant extends JsonResource
         return[
             'id' => $this->id,
             'user_id' => $this->user_id,
-            'user_name' => $this->user->first_name.' '.$this->user->last_name,
             'restaurant_name' => $this->restaurant_name,
             'description' => $this->description,
             'delivery_hours' => Carbon::parse($this->delivery_from)->format('H:i') .' To '.Carbon::parse($this->delivery_to)->format('H:i'),

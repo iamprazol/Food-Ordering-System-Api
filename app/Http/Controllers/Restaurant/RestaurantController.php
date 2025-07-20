@@ -23,6 +23,15 @@ use App\Category;
 class RestaurantController extends Controller
 {
 
+    public function allRestaurants(){
+
+        $restaurant = Restaurant::orderBy('restaurant_name', 'asc')->get();
+        $data = RestaurantResource::collection($restaurant);
+
+        return $this->responser($restaurant, $data, 'Restaurants');
+
+    }
+
     public function searchRestaurant(Request $filters){
 
         $restaurant = (new Restaurant)->newQuery();

@@ -16,20 +16,26 @@ class Controller extends BaseController
     public function responser($item,$data,$name)
     {
 
-        $num = $item->count();
+         try {
+            $num = method_exists($item, 'count') ? $item->count() : 0;
 
-        if($num > 0){
             return response()->json([
                 'data' => $data,
-                'status' => 200,
-                'message' => $num.' '.$name.' found'
-            ], 200);
-        } else {
+                'status' => $num > 0 ? 200 : 404,
+                'message' => $num > 0 ? "$num $name found" : "$name not found"
+            ], $num > 0 ? 200 : 404);
+
+        } catch (\Throwable $e) {
+            // Log the actual error
+            \Log::error('Responser error: '.$e->getMessage(), [
+                'trace' => $e->getTraceAsString()
+            ]);
+
             return response()->json([
-                'data' => $data,
-                'status' => 404,
-                'message' => $name.' not found'
-            ], 404);
+                'data' => null,
+                'status' => 500,
+                'message' => 'Server error: '.$e->getMessage()
+            ], 500);
         }
     }
 
