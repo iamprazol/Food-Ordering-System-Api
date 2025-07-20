@@ -3,7 +3,7 @@
 use Faker\Generator as Faker;
 
 $factory->define(App\Restaurant::class, function (Faker $faker) {
-     $restaurantImagesDir = public_path('images/restaurant');
+    $restaurantImagesDir = public_path('images/restaurant');
     $restaurantImages = array_filter(scandir($restaurantImagesDir), function ($file) use ($restaurantImagesDir) {
         return !is_dir($restaurantImagesDir . '/' . $file);
     });
