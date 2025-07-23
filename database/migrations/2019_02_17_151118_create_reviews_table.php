@@ -16,8 +16,10 @@ class CreateReviewsTable extends Migration
         Schema::create('reviews', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('restaurant_id');
+            $table->integer('user_id');
             $table->string('name');
             $table->text('review');
+            $table->integer('rating');
             $table->timestamps();
         });
     }

@@ -18,7 +18,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'role_id','first_name', 'last_name', 'email', 'password', 'phone', 'api_token',
+        'role_id','first_name', 'last_name', 'email', 'password', 'phone', 'api_token', 'picture',
     ];
 
     /**
@@ -52,6 +52,10 @@ class User extends Authenticatable
 
     public function restaurant(){
         return $this->hasOne('App\Restaurant');
+    }
+
+    public function review(){
+        return $this->hasMany('App\Review');
     }
 
     public function is_superAdmin($id){

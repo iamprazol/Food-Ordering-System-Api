@@ -32,9 +32,11 @@ class ReviewSeeder extends Seeder
 
         for ($i = 0; $i < $totalReviews; $i++) {
             DB::table('reviews')->insert([
+                'user_id' => $faker->numberBetween(1, 10),
                 'restaurant_id' => $faker->numberBetween(1, 15),
                 'name' => $faker->name,
                 'review' => $faker->randomElement($sampleReviews),
+                'rating' => $faker->numberBetween(1, 5),
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);

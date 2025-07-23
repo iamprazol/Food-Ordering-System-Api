@@ -17,14 +17,13 @@ class DatabaseSeeder extends Seeder
         $this->call([ReviewSeeder::class]);
         $this->call([BranchSeeder::class]);
         $this->call([FoodSeeder::class]);
-        factory('App\User', 10)->create();
         factory('App\Favourites', 10)->create();
         factory('App\Order', 10)->create();
         factory('App\Cart', 10)->create();
         factory('App\Address', 10)->create();
         factory('App\Cusine', 10)->create();
         // factory('App\Category', 10)->create();
-        // $this->call([UserTableSeeder::class]);
+        $this->call([UserTableSeeder::class]);
 
     }
 }

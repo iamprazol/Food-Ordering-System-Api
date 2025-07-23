@@ -21,6 +21,7 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->string('password');
             $table->bigInteger('phone');
+            $table->string('picture')->default('restaurant.jpeg');
             $table->text('api_token')->nullable();
             $table->rememberToken();
             $table->timestamps();

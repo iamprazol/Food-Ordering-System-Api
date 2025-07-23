@@ -114,16 +114,19 @@ class FoodSeeder extends Seeder
 
         ];
 
-        foreach ($foods as $food) {
-            DB::table('foods')->insert([
-                'restaurant_id' => $faker->numberBetween(1, 15), // Adjust as needed
-                'category_id' => $faker->numberBetween(1, 15),    // Adjust as needed
-                'food_name' => $food['name'],
-                'picture' => $food['image'],
-                'price' => $faker->randomFloat(2, 80, 500),
-                'created_at' => now(),
-                'updated_at' => now(),
-            ]);
+        for( $i=0; $i<=20; $i++ ) {
+            foreach ($foods as $food) {
+                DB::table('foods')->insert([
+                    'restaurant_id' => $faker->numberBetween(1, 15), // Adjust as needed
+                    'category_id' => $faker->numberBetween(1, 15),    // Adjust as needed
+                    'food_name' => $food['name'],
+                    'picture' => $food['image'],
+                    'description' => $faker->sentence(5),
+                    'price' => $faker->randomFloat(2, 80, 500),
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+            }
         }
     }
 }

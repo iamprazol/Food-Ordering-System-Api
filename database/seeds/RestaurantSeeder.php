@@ -133,12 +133,10 @@ class RestaurantSeeder extends Seeder
 
         ];
 
-        // Generate up to 30 entries using base data and faker
-        for ($i = 0; $i < 30; $i++) {
-            $template = $restaurants[$i % count($restaurants)];
+        foreach ($restaurants as $key => $restaurant) {
             DB::table('restaurants')->insert([
                 'user_id' => $faker->numberBetween(1, 10),
-                'restaurant_name' => $template['name'] . ' ' . $faker->companySuffix,
+                'restaurant_name' => $restaurant['name'] . ' ' . $faker->companySuffix,
                 'discount' => $faker->numberBetween(0, 30),
                 'vat' => $faker->numberBetween(5, 15),
                 'additional_charge' => $faker->numberBetween(0, 100),
@@ -146,11 +144,11 @@ class RestaurantSeeder extends Seeder
                 'delivery_from' => $faker->time('H:i', '10:00'),
                 'delivery_to' => $faker->time('H:i', '22:00'),
                 'minimum_order' => $faker->randomFloat(2, 100, 1000),
-                'cover_pic' => $template['cover_pic'],
-                'picture' => $template['picture'],
-                'address' => $template['address'],
-                'latitude' => $template['latitude'] + $faker->randomFloat(5, -0.01, 0.01),
-                'longitude' => $template['longitude'] + $faker->randomFloat(5, -0.01, 0.01),
+                'cover_pic' => $restaurant['cover_pic'],
+                'picture' => $restaurant['picture'],
+                'address' => $restaurant['address'],
+                'latitude' => $restaurant['latitude'] + $faker->randomFloat(5, -0.01, 0.01),
+                'longitude' => $restaurant['longitude'] + $faker->randomFloat(5, -0.01, 0.01),
                 'created_at' => now(),
                 'updated_at' => now()
             ]);

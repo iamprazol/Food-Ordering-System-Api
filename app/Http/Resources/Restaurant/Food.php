@@ -23,7 +23,8 @@ class Food extends JsonResource
             'restaurant_name' => $this->restaurant->restaurant_name,
             'food_name' => $this->food_name,
             'picture' => $this->picture,
-            'price' => $this->price
+            'price' => $this->price,
+            'description' => $this->description,
         ];
     }
 }

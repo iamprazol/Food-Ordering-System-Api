@@ -1,65 +1,41 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use App\User;
+use Faker\Factory as Faker;
+use Illuminate\Support\Facades\DB;
 
 class UserTableSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     *
-     * @return void
-     */
     public function run()
     {
-        User::create([
-            'id' => '1',
-            'first_name' => 'Prajjwal',
-            'last_name' => 'Poudel',
-            'email' => 'iamprazol@gmail.com',
-            'password' => bcrypt('hello123'),
-            'phone' => '984536256',
-            'role_id' => 1
-        ]);
+        $faker = Faker::create();
 
-        User::create([
-            'id' => '2',
-            'first_name' => 'kushal',
-            'last_name' => 'poudel',
-            'email' => 'ku@gmail.com',
-            'password' => bcrypt('hello123'),
-            'phone' => '984536256',
-            'role_id' => 2
-        ]);
+        $pictures = [
+            'https://randomuser.me/api/portraits/men/11.jpg',
+            'https://randomuser.me/api/portraits/women/12.jpg',
+            'https://randomuser.me/api/portraits/men/13.jpg',
+            'https://randomuser.me/api/portraits/women/14.jpg',
+            'https://randomuser.me/api/portraits/men/15.jpg',
+            'https://randomuser.me/api/portraits/women/16.jpg',
+            'https://randomuser.me/api/portraits/men/17.jpg',
+            'https://randomuser.me/api/portraits/women/18.jpg',
+            'https://randomuser.me/api/portraits/men/19.jpg',
+            'https://randomuser.me/api/portraits/women/20.jpg'
+        ];
 
-        User::create([
-            'id' => '3',
-            'first_name' => 'Sashank',
-            'last_name' => 'Poudel',
-            'email' => 'sasank@gmail.com',
-            'password' => bcrypt('hello123'),
-            'phone' => '984516256',
-            'role_id' => 2
-        ]);
-
-        User::create([
-            'id' => '4',
-            'first_name' => 'Bibita',
-            'last_name' => 'Poudel',
-            'email' => 'bibita@gmail.com',
-            'password' => bcrypt('hello123'),
-            'phone' => '9845181246',
-            'role_id' => 2
-        ]);
-
-        User::create([
-            'id' => '5',
-            'first_name' => 'Sushmita',
-            'last_name' => 'Poudel',
-            'email' => 'sushmita@gmail.com',
-            'password' => bcrypt('hello123'),
-            'phone' => '9845181246',
-            'role_id' => 2
-        ]);
+        foreach (range(1, 20) as $index) {
+            DB::table('users')->insert([
+                'role_id' => $faker->numberBetween(1, 4),
+                'first_name' => $faker->firstName,
+                'last_name' => $faker->lastName,
+                'email' => $faker->unique()->safeEmail,
+                'password' => bcrypt('secret'), // default password
+                'phone' => $faker->numerify('98########'),
+                'picture' => $pictures[array_rand($pictures)],
+                'remember_token' => str_random(10),
+                'created_at' => now(),
+                'updated_at' => now()
+            ]);
+        }
     }
 }
