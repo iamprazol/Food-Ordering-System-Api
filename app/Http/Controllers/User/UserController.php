@@ -22,6 +22,7 @@ class UserController extends Controller
         if(Auth::attempt(['email' => request('email'), 'password' => request('password')])){
             $user = Auth::user();
             $success['token'] = $user->createToken('mandu')->accessToken;
+            $success['user_id'] = $user->id;
             $user->api_token = $success['token'];
             $user->save();
             return response()->json(['success' => $success], 200);
@@ -46,7 +47,7 @@ class UserController extends Controller
         ]);
 
         if($validator->fails()){
-            return response()->json(['error' => $validator->errors()], 401);
+            return response()->json(['error' => $validator->errors()], 422);
         }
 
         $input = $request->all();

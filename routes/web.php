@@ -10,12 +10,12 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+use App\Http\Controllers\AuthController;
 
 Route::get('/admin-panel', function () {
     return view('welcome');
 });
 Auth::routes();
-
 
 Route::middleware(['auth','admin'])->prefix('admin')->group (function () {
 

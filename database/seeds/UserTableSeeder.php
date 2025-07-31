@@ -23,6 +23,19 @@ class UserTableSeeder extends Seeder
             'https://randomuser.me/api/portraits/women/20.jpg'
         ];
 
+         DB::table('users')->insert([
+                'role_id' => '1',
+                'first_name' => "prajjwal",
+                'last_name' => 'poudel',
+                'email' => 'iamprazol@gmail.com',
+                'password' => bcrypt('secret'), // default password
+                'phone' => $faker->numerify('98########'),
+                'picture' => $pictures[array_rand($pictures)],
+                'remember_token' => str_random(10),
+                'created_at' => now(),
+                'updated_at' => now()
+            ]);
+
         foreach (range(1, 20) as $index) {
             DB::table('users')->insert([
                 'role_id' => $faker->numberBetween(1, 4),

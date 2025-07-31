@@ -17,12 +17,13 @@ class Controller extends BaseController
     {
 
          try {
-            $num = method_exists($item, 'count') ? $item->count() : 0;
+            $num = 0;
 
             return response()->json([
                 'data' => $data,
                 'status' => $num > 0 ? 200 : 404,
-                'message' => $num > 0 ? "$num $name found" : "$name not found"
+                'message' => $num > 0 ? "$num $name found" : "$name not found",
+                'item' => $item
             ], $num > 0 ? 200 : 404);
 
         } catch (\Throwable $e) {

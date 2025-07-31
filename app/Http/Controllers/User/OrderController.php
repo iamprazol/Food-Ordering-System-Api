@@ -36,34 +36,29 @@ class OrderController extends Controller
 
     }
 
-    public function create()
+    /**
+     * Register api
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create(Request $request)
     {
-        $cart = Auth::user()->cart;
+        $order = Order::create([
+            'user_id' => $request->user_id,
+            'restaurant_id' => $request->restaurant_id,
+            'address_id' => $request->address_id,
+            'delivery_date' => Carbon::now()->addHour(),
+            'delivery_time' => Carbon::now()->format('H:i:s'),
+            'instruction' => $request->instruction,
+            'total_price' => $request->total_price,
+            'details' => $request->details,
+        ]);
 
-        $r = request();
-
-        $num = count($cart);
-        if ($num == 0) {
-            return $this->responser($cart, $cart, 'Cart');
+        $data = new OrderResource($order);
+        if( $data ) {
+           return response()->json(['success'=>$data], 200);
         } else {
-            foreach ($cart as $c) {
-                $order = Order::create([
-                    'user_id' => $c->user_id,
-                    'food_id' => $c->food_id,
-                    'quantity' => $c->quantity,
-                    'address_id' => $r->address_id,
-                    'delivery_date' => $r->delivery_date,
-                    'delivery_time' => Carbon::parse($r->delivery_time)->format('H:i:s'),
-                    'instruction' => $r->instruction,
-                    'total_price' => $c->price,
-                ]);
-
-                $c->delete();
-                $detail[] = $order;
-            }
-
-        $data = OrderResource::collection(collect($detail));
-        return $this->responser(collect($detail), $data, 'Food Ordered and');
+            return response()->json(['error' => 'Unauthorised'], 401);
         }
     }
 

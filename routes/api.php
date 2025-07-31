@@ -22,7 +22,7 @@ Route::post('register', 'User\UserController@register');
 
 
 //Routes for the apis that only customer is capable of accessing
-Route::group(['middleware' => ['auth:api' , 'customer']], function () {
+Route::group(['middleware' => ['auth:api']], function () {
 
     Route::get('userlist','User\UserController@index'); //list all users registered
     Route::get('orderbyuser/{id}', 'User\OrderController@orderByUser');     //List the order issued by specific user
@@ -70,7 +70,6 @@ Route::group(['middleware' => ['auth:api' , 'customer']], function () {
 Route::group(['middleware' => ['auth:api' , 'manager']], function () {
     Route::post('createuser', 'Restaurant\ManagerController@createUser');
     Route::get('listmanagers', 'Restaurant\ManagerController@listManagers');
-
 });
 
 Route::get('restaurant/{id}', 'Restaurant\RestaurantController@viewRestaurant');  //List the details of a specific branch

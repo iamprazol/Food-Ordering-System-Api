@@ -9,7 +9,13 @@ class Address extends Model
     protected $fillable = [
         'id',
         'user_id',
-        'address'
+        'address',
+        'address_title',
+        'address_details',
+        'address_contact',
+        'address_alternate_contact',
+        'latitude',
+        'longitude'
     ];
 
     public function user(){

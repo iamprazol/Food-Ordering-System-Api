@@ -19,8 +19,12 @@ class Address extends JsonResource
         return [
             'id' => $this->id,
             'user_id' => $this->user_id,
-            'user_name' => $this->user->first_name.' '.$this->user->last_name,
+            'full_name' => ucfirst( $this->user->first_name ).' '.ucfirst($this->user->last_name),
             'address' => $this->address,
+            'address_title' => $this->address_title,
+            'address_details' => $this->address_details,
+            'address_contact' => $this->address_contact,
+            'address_alternate_contact' => $this->address_alternate_contact,
         ];
     }
 }
