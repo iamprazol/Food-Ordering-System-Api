@@ -15,19 +15,16 @@ class Controller extends BaseController
 
     public function responser($item,$data,$name)
     {
-
-         try {
-            $num = 0;
+        try {
+            $exists = !empty($item); // or you can use ($item !== null)
 
             return response()->json([
                 'data' => $data,
-                'status' => $num > 0 ? 200 : 404,
-                'message' => $num > 0 ? "$num $name found" : "$name not found",
-                'item' => $item
-            ], $num > 0 ? 200 : 404);
+                'status' => $exists ? 200 : 404,
+                'message' => $exists ? "$name found" : "$name not found",
+            ], $exists ? 200 : 404);
 
         } catch (\Throwable $e) {
-            // Log the actual error
             \Log::error('Responser error: '.$e->getMessage(), [
                 'trace' => $e->getTraceAsString()
             ]);

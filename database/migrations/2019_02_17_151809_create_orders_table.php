@@ -21,7 +21,7 @@ class CreateOrdersTable extends Migration
             $table->date('delivery_date');
             $table->time('delivery_time');
             $table->string('instruction')->nullable();
-            $table->string('details')->nullable();
+            $table->longText('details')->nullable();
             $table->float('total_price');
             $table->boolean('delivered')->default(0);
             $table->boolean('paid')->default(0);

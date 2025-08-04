@@ -63,4 +63,29 @@ class AddressController extends Controller
 
     }
 
+     public function update(Request $r){
+         $id = $r->id;
+        $address = Address::find($id);
+
+        if (!$address) {
+            return response()->json([
+                'data' => null,
+                'status' => 404,
+                'message' => 'Address not found',
+            ], 404);
+        }
+
+        $address->update([
+            'address' => $r->address,
+            'address_title' => $r->address_title,
+            'address_contact' => $r->address_contact,
+            'address_alternate_contact' => $r->address_alternate_contact,
+            'address_details' => $r->address_details,
+        ]);
+
+        $data = new AddressResource($address);
+
+        return response()->json(['data' => $data,'status' => 200,'message' => 'Address updated successfully'],200);
+    }
+
 }

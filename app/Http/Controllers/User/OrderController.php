@@ -28,7 +28,7 @@ class OrderController extends Controller
 
     public function myOrder()
     {
-        $order = Auth::user()->order->where('delivered', 0);
+        $order = Auth::user()->order;
 
         $data = OrderResource::collection($order);
 
@@ -47,8 +47,8 @@ class OrderController extends Controller
             'user_id' => $request->user_id,
             'restaurant_id' => $request->restaurant_id,
             'address_id' => $request->address_id,
-            'delivery_date' => Carbon::now()->addHour(),
-            'delivery_time' => Carbon::now()->format('H:i:s'),
+            'delivery_date' => Carbon::now()->format('Y-m-d'),
+            'delivery_time' => Carbon::now()->addHour()->format('H:i:s'),
             'instruction' => $request->instruction,
             'total_price' => $request->total_price,
             'details' => $request->details,

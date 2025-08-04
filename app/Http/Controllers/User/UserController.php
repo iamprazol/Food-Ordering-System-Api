@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Validator;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Hash;
+use App\Http\Resources\User\Order as OrderResource;
 
 class UserController extends Controller
 {
@@ -20,12 +21,14 @@ class UserController extends Controller
 
     public function login(){
         if(Auth::attempt(['email' => request('email'), 'password' => request('password')])){
-            $user = Auth::user();
+            $user = Auth::user()->load(['address', 'order']);
             $success['token'] = $user->createToken('mandu')->accessToken;
             $success['user_id'] = $user->id;
+            $success['address'] = $user->address;
+            $success['orders'] = OrderResource::collection($user->order);
             $user->api_token = $success['token'];
             $user->save();
-            return response()->json(['success' => $success], 200);
+            return response()->json(['success' => $success, 'user'=> $user], 200);
         } else {
             return response()->json(['error' => 'Unauthorised'], 401);
         }
@@ -98,10 +101,10 @@ class UserController extends Controller
         $user->first_name = $request->first_name;
         $user->last_name = $request->last_name;
         $user->phone = $request->phone;
+        $user->email = $request->email;
         $user->save();
 
         $data = new UserResource($user);
-
         return $this->responser($user, $data, 'User Data Updated and');
     }
 

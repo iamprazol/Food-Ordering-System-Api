@@ -31,7 +31,7 @@ Route::group(['middleware' => ['auth:api']], function () {
     //User
     Route::post('logout', 'User\UserController@logout');
     Route::get('myprofile','User\UserController@myProfile');     //list specific user detils
-    Route::put('editprofile','User\UserController@update');     //list specific user detils
+    Route::put('update-profile','User\UserController@update');     //list specific user detils
     Route::put('changepassword','User\UserController@changePassword');     //list specific user detils
 
 
@@ -40,6 +40,7 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::get('myaddress/', 'User\AddressController@myAddress');     //List the address saved by specific user for delivery
     Route::post('addaddress/', 'User\AddressController@addAddress');     //List the address saved by specific user for delivery
     Route::delete('removeaddress/{id}', 'User\AddressController@removeAddress');     //List the address saved by specific user for delivery
+    Route::put('update-address','User\AddressController@update');     //list specific user detils
 
 
     //Favourites
@@ -82,6 +83,7 @@ Route::get('foodbycategory/{id}','Restaurant\FoodController@foodByCategory');  /
 Route::get('cusine','Restaurant\CusineController@index');  //List all the cusines
 
 Route::get('restaurants', 'Restaurant\RestaurantController@allRestaurants');  //List all restaurant with letters supplied in name attribute
+Route::get('restaurants/search', 'Restaurant\RestaurantController@searchRestaurant');
 Route::get('foods', 'Restaurant\FoodController@AllFoods');  //List all restaurant with letters supplied in name attribute
 
 /*Route::get('/admin', function(){

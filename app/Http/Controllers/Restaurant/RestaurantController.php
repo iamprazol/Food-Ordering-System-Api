@@ -23,67 +23,83 @@ use App\Category;
 class RestaurantController extends Controller
 {
 
-    public function allRestaurants(){
+    public function allRestaurants(Request $request){
+        $perPage = $request->get('per_page', 8);
+        $restaurants = Restaurant::orderBy('restaurant_name', 'asc')->paginate($perPage);
+        $data = RestaurantResource::collection($restaurants);
 
-        $restaurant = Restaurant::orderBy('restaurant_name', 'asc')->get();
-        $data = RestaurantResource::collection($restaurant);
-
-        return $this->responser($restaurant, $data, 'Restaurants');
-
+        return response()->json([
+                'data' => $data,
+                'message' => 'Restaurants loaded',
+                'pagination' => [
+                    'current_page' => $restaurants->currentPage(),
+                    'last_page' => $restaurants->lastPage(),
+                    'per_page' => $restaurants->perPage(),
+                    'total' => $restaurants->total()
+                ]
+            ]);
     }
 
-    public function searchRestaurant(Request $filters){
+   public function searchRestaurant(Request $filters)
+    {
+        $query = (new Restaurant)->newQuery();
 
-        $restaurant = (new Restaurant)->newQuery();
-
-        if($filters->has('name')){
-            $restaurant->where('restaurant_name','like', '%'.$filters->input('name').'%');
+        if ($filters->has('name')) {
+            $query->where('restaurant_name', 'like', '%' . $filters->input('name') . '%');
         }
 
-        if($filters->has('id')){
-            $restaurant->where('id',$filters->input('id'));
+        if ($filters->has('id')) {
+            $query->where('id', $filters->input('id'));
         }
 
-        if($filters->has('address')){
-            $restaurant->where('address', 'like', '%'. $filters->input('address').'%');
+        if ($filters->has('address')) {
+            $query->where('address', 'like', '%' . $filters->input('address') . '%');
         }
 
-        if($filters->has('cusine')) {
+        if ($filters->has('cusine')) {
             $cusine = Cusine::where('name', $filters->input('cusine'))->first();
             if ($cusine) {
-                $restaurant->where('cusine_id', $cusine->id);
+                $query->where('cusine_id', $cusine->id);
             }
         }
 
-        if($filters->has('category')) {
-            $category = Category::where('id', $filters->input('category'))->first();
+        if ($filters->has('category')) {
+            $category = Category::find($filters->input('category'));
+            if ($category) {
+                $restaurantIds = Food::where('category_id', $category->id)
+                    ->pluck('restaurant_id')
+                    ->unique()
+                    ->toArray();
 
-            if ( $category ) {
-                $foodsInCategory = Food::where('category_id', $category->id)->orderBy('food_name', 'asc')->get();
-
-                $restaurantIdArray = array();
-
-                foreach ( $foodsInCategory as $food ) {
-                    if( !in_array( $food->restaurant_id, $restaurantIdArray ) ) {
-                        $restaurantIdArray[] = $food->restaurant_id;
-                    }
-                }
-
-                $restaurant->whereIn('id', $restaurantIdArray);
+                $query->whereIn('id', $restaurantIds);
             }
         }
 
-        if($filters->has('lat') && $filters->has('lon')){
+        if ($filters->has('lat') && $filters->has('lon')) {
             $latitude = $filters->input('lat');
             $longitude = $filters->input('lon');
-            $restaurant = $this->closest($latitude, $longitude, 20);
+            $nearbyRestaurants = $this->closest($latitude, $longitude, 20);
+
+            $data = RestaurantResource::collection($nearbyRestaurants);
+            return $this->responser($nearbyRestaurants, $data, 'Nearby restaurants');
         }
 
-        $data = RestaurantResource::collection($restaurant->get());
+        $perPage = $filters->get('per_page', 8);
+        $paginated = $query->orderBy('restaurant_name', 'asc')->paginate($perPage);
+        $data = RestaurantResource::collection($paginated);
 
-        return $this->responser($restaurant->get(), $data,'restaurants');
-
+        return response()->json([
+            'data' => $data,
+            'message' => 'Filtered restaurants loaded',
+            'pagination' => [
+                'current_page' => $paginated->currentPage(),
+                'last_page' => $paginated->lastPage(),
+                'per_page' => $paginated->perPage(),
+                'total' => $paginated->total()
+            ]
+        ]);
     }
+
 
     public function index(Restaurant $model){
         return view('restaurant.detail.show', ['restaurants' => $model->paginate(15)]);
