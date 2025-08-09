@@ -10,7 +10,7 @@ use Validator;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Resources\User\Order as OrderResource;
-
+use App\Http\Resources\User\GroupedFavourites as GroupedFavouritesResource;
 class UserController extends Controller
 {
     /**
@@ -19,19 +19,49 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function login(){
-        if(Auth::attempt(['email' => request('email'), 'password' => request('password')])){
-            $user = Auth::user()->load(['address', 'order']);
-            $success['token'] = $user->createToken('mandu')->accessToken;
-            $success['user_id'] = $user->id;
-            $success['address'] = $user->address;
-            $success['orders'] = OrderResource::collection($user->order);
-            $user->api_token = $success['token'];
-            $user->save();
-            return response()->json(['success' => $success, 'user'=> $user], 200);
-        } else {
-            return response()->json(['error' => 'Unauthorised'], 401);
+    public function login(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required',
+        ]);
+
+        $user = User::where('email', $request->email)->first();
+
+        if (!$user) {
+            return response()->json([
+                'message' => 'User not found',
+                'errors' => [
+                    'email' => ['No user registered with this email.']
+                ]
+            ], 404);
         }
+
+        if (!Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
+            return response()->json([
+                'message' => 'Incorrect password',
+                'errors' => [
+                    'password' => ['The password you entered is incorrect.']
+                ]
+            ], 401);
+        }
+
+        $user->load(['address', 'order', 'favourite.restaurant', 'favourite.food']);
+
+        $token = $user->createToken('mandu')->accessToken;
+        $user->api_token = $token;
+        $user->save();
+
+        return response()->json([
+            'success' => [
+                'token' => $token,
+                'user_id' => $user->id,
+                'address' => $user->address,
+                'orders' => OrderResource::collection($user->order),
+                'favourites' => new GroupedFavouritesResource($user),
+            ],
+            'user' => $user
+        ], 200);
     }
 
     /**

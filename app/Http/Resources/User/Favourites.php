@@ -27,15 +27,29 @@ class Favourites extends JsonResource
 
     public function checkres(){
         if($this->restaurant_id != null){
-            return (['restaurant_id' => $this->restaurant_id,
-                'restaurant_name' => $this->restaurant->restaurant_name]);
+            return ([
+                'restaurant_id' => $this->restaurant_id,
+                'restaurant_name' => $this->restaurant->restaurant_name,
+                'restaurant_picture' => $this->restaurant->picture,
+                'restaurant_description' => $this->restaurant->description,
+                'restaurant_address' => $this->restaurant->address,
+                'restaurant_delivery_hours' => $this->restaurant->delivery_hours,
+                'restaurant_minimum_order' => $this->restaurant->minimum_order,
+                'restaurant_discount' => $this->restaurant->discount,
+            ]);
         }
     }
 
     public function checkfood(){
         if($this->food_id != null){
-            return (['food_id' => $this->food_id,
-            'food_name' => $this->food->food_name]);
+            return ([
+                'food_id' => $this->food_id,
+                'food_name' => $this->food->food_name,
+                'picture' => $this->food->picture,
+                'price' => $this->food->price,
+                'description' => $this->food->description,
+                'restaurant_name' => $this->food->restaurant->restaurant_name,
+        ]);
         }
     }
 }

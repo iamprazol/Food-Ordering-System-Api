@@ -44,4 +44,8 @@ class Restaurant extends Model
         return $this->hasMany('App\Manager');
     }
 
+    public function favourite(){
+        return $this->hasMany('App\Favourites');
+    }
+
 }
