@@ -16,9 +16,9 @@ class Delivery
      */
     public function handle($request, Closure $next)
     {
-        if (Auth::check() && Auth::user()->role->role == 'delivery boy'){
+        if (Auth::check() && Auth::user()->role->role == 'delivery'){
             return $next($request);
-        } elseif (Auth::check() && (Auth::user()->role->role == 'admin' || Auth::user()->role->role == 'restaurant')){
+        } elseif (Auth::check() && (Auth::user()->role->role == 'admin' || Auth::user()->role->role == 'manager')){
             return redirect('/admin');
         } else {
             return redirect('/customer');

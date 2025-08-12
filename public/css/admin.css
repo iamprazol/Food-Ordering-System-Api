@@ -1,0 +1,14 @@
+.foodie-container {
+    display: flex;
+    justify-content: space-between;
+
+    &--left {
+        flex: 0 0 50%;
+        width: 100%;
+    }
+
+    &--right {
+        flex: 0 0 50%;
+        width: 100%;
+    }
+}

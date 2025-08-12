@@ -17,9 +17,13 @@ Route::get('/admin-panel', function () {
 });
 Auth::routes();
 
-Route::middleware(['auth','admin'])->prefix('admin')->group (function () {
-
+Route::middleware(['auth'])->group (function () {
     Route::get('/home', 'HomeController@index')->name('home');
+});
+
+Route::middleware(['auth','admin'])->prefix('admin')->group (function () {
+    Route::get('/home', 'HomeController@index')->name('home');
+
     Route::resource('user', 'UserController', ['except' => ['show']]);
     Route::get('user/manager', ['as' => 'user.managers', 'uses' => 'UserController@manager']);
     Route::get('user/customer', ['as' => 'user.customers', 'uses' => 'UserController@customer']);

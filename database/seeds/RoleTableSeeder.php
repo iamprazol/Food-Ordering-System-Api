@@ -21,12 +21,12 @@ class RoleTableSeeder extends Seeder
 
         $r2 = [
             'id' => '2',
-            'role' => 'restaurant',
+            'role' => 'manager',
         ];
 
         $r3 = [
             'id' => '3',
-            'role' => 'delivery boy'
+            'role' => 'delivery'
         ];
 
         $r4 = [

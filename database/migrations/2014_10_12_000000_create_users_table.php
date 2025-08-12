@@ -20,8 +20,8 @@ class CreateUsersTable extends Migration
             $table->string('last_name');
             $table->string('email')->unique();
             $table->string('password');
-            $table->bigInteger('phone');
-            $table->string('picture')->default('restaurant.jpeg');
+            $table->bigInteger('phone')->nullable();
+            $table->string('picture')->nullable();
             $table->text('api_token')->nullable();
             $table->rememberToken();
             $table->timestamps();

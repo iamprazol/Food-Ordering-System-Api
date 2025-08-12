@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use App\Role;
 
 class RegisterController extends Controller
 {
@@ -49,9 +50,11 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:6', 'confirmed'],
+            'first_name' => ['required', 'string', 'max:255'],
+            'last_name'  => ['required', 'string', 'max:255'],
+            'role'       => ['required', 'in:manager,delivery,user'],
+            'email'      => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password'   => ['required', 'string', 'min:6', 'confirmed'],
         ]);
     }
 
@@ -63,10 +66,30 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+        $roles = Role::all()->pluck('id', 'role')->toArray();
+        $roleId = $roles[$data['role']] ?? $roles['user'];
+
         return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
+            'first_name'     => $data['first_name'],
+            'last_name'     => $data['last_name'],
+            'email'    => $data['email'],
+            'role_id'     => $roleId,
             'password' => Hash::make($data['password']),
         ]);
+    }
+
+   protected function authenticated(Request $request, $user)
+    {
+        $roleName = optional($user->role)->role;
+
+        if ($roleName === 'manager') {
+            return redirect('/admin/profile');
+        }
+
+        if ($roleName === 'delivery') {
+            return redirect()->route('user.delivery');
+        }
+
+        return redirect()->route('user.customer');
     }
 }

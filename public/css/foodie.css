@@ -1,0 +1,234 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: #f8fafc;
+  min-height: 100vh;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+.foodie-container {
+  display: flex;
+  justify-content: space-between;
+  min-height: 100vh;
+}
+
+.foodie-container--left {
+  flex: 1;
+  background: linear-gradient(135deg, #ff0018 0%, #d4002f 100%);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+  position: relative;
+  overflow: hidden;
+}
+
+.foodie-container--left::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  opacity: 0.3;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3Cpattern id='grid' width='10' height='10' patternUnits='userSpaceOnUse'%3E%3Cpath d='M10 0 H0 V10' fill='none' stroke='rgba(255,255,255,0.1)' stroke-width='0.5'/%3E%3C/pattern%3E%3C/defs%3E%3Crect width='100' height='100' fill='url(%23grid)'/%3E%3C/svg%3E");
+}
+
+.foodie-container--left .brand-content {
+  text-align: center;
+  z-index: 1;
+  color: white;
+}
+
+.foodie-container--left .brand-content .brand-logo {
+  width: 160px;
+  height: 80px;
+  background: #fafafc;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 30px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.foodie-container--left .brand-content .brand-logo img {
+  width: 160px;
+  height: auto;
+  fill: white;
+}
+
+.foodie-container--left .brand-content .brand-title {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 15px;
+  letter-spacing: -0.5px;
+  color: white;
+}
+
+.foodie-container--left .brand-content .brand-subtitle {
+  font-size: 18px;
+  opacity: 0.9;
+  font-weight: 400;
+  line-height: 1.6;
+}
+
+.foodie-container--right {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  background: white;
+}
+
+.foodie-container--right .foodie-form {
+  width: 100%;
+  max-width: 500px;
+  padding: 0px 20px;
+  margin-top: -20px;
+}
+
+.foodie-container--right .foodie-form .form-header {
+  margin-bottom: 40px;
+}
+
+.foodie-container--right .foodie-form .form-header .form-title {
+  font-size: 28px;
+  font-weight: 700;
+  color: #1a202c;
+  margin-bottom: 8px;
+}
+
+.foodie-container--right .foodie-form .form-header .form-subtitle {
+  color: #718096;
+  font-size: 16px;
+  font-weight: 400;
+}
+
+.foodie-container--right .foodie-form .form-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: nowrap;
+}
+
+.foodie-container--right .foodie-form .form-row .form-group {
+  margin-bottom: 24px;
+  width: 100%;
+}
+
+.foodie-container--right .foodie-form .form-row .form-group .input-label {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 8px;
+}
+
+.foodie-container--right .foodie-form .form-row .form-group .input-field {
+  width: 100%;
+  height: 48px;
+  padding: 0 16px;
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+  font-size: 16px;
+  transition: all 0.2s ease;
+  background: #ffffff;
+}
+
+.foodie-container--right .foodie-form .form-row .form-group .input-field:focus {
+  outline: none;
+  border-color: #ff0018;
+  box-shadow: 0 0 0 3px rgba(255, 0, 24, 0.1);
+}
+
+.foodie-container--right .foodie-form .form-row .form-group .input-field::-moz-placeholder {
+  color: #9ca3af;
+}
+
+.foodie-container--right .foodie-form .form-row .form-group .input-field::placeholder {
+  color: #9ca3af;
+}
+
+.foodie-container--right .foodie-form .form-options {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
+}
+
+.foodie-container--right .foodie-form .form-options .checkbox-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.foodie-container--right .foodie-form .form-options .checkbox-wrapper .checkbox {
+  width: 16px;
+  height: 16px;
+  accent-color: #ff0018;
+}
+
+.foodie-container--right .foodie-form .form-options .checkbox-wrapper .checkbox-label {
+  font-size: 14px;
+  color: #6b7280;
+  font-weight: 400;
+  margin: 0px;
+}
+
+.foodie-container--right .foodie-form .form-options .forgot-link {
+  font-size: 14px;
+  color: #ff0018;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.foodie-container--right .foodie-form .form-options .forgot-link:hover {
+  text-decoration: underline;
+}
+
+.foodie-container--right .foodie-form .form-footer {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  justify-content: center;
+  text-align: center;
+}
+
+.foodie-container--right .foodie-form .form-footer .submit-btn {
+  width: 100%;
+  height: 48px;
+  background: #ff0018;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.foodie-container--right .foodie-form .form-footer .submit-btn .submit-btn:hover {
+  background: #e6001a;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(255, 0, 24, 0.3);
+}
+
+.foodie-container--right .foodie-form .form-footer .submit-btn .submit-btn:active {
+  transform: translateY(0);
+}
+
+.foodie-container--right .foodie-form .form-footer .create-new-link {
+  font-size: 14px;
+  color: #ff0018;
+  text-decoration: none;
+  font-weight: 600;
+}
+

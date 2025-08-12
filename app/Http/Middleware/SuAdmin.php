@@ -17,9 +17,9 @@ class SuAdmin
      */
     public function handle($request, Closure $next)
     {
-        if (Auth::check() && (Auth::user()->role->role == 'admin' || Auth::user()->role->role == 'restaurant')) {
+        if (Auth::check() && (Auth::user()->role->role == 'admin' || Auth::user()->role->role == 'manager')) {
             return $next($request);
-        } elseif (Auth::check() && Auth::user()->role->role == 'delivery boy'){
+        } elseif (Auth::check() && Auth::user()->role->role == 'delivery'){
             return redirect('/delivery');
         } else {
             return redirect('/customer');

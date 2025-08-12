@@ -38,8 +38,9 @@ class User extends Authenticatable
         return $this->hasMany('App\Cart');
     }
 
-    public function role(){
-        return $this->belongsTo('App\Role');
+    public function role()
+    {
+        return $this->belongsTo(Role::class, 'role_id');
     }
 
     public function favourite(){
