@@ -21,7 +21,9 @@ class Restaurant extends Model
         'longitude',
         'discount',
         'additional_charge',
-        'vat'
+        'vat',
+        'is_open',
+        'prep_time_minutes',
     ];
 
     public function User(){
@@ -46,6 +48,10 @@ class Restaurant extends Model
 
     public function favourite(){
         return $this->hasMany('App\Favourites');
+    }
+
+    public function order(){
+        return $this->hasMany('App\Order');
     }
 
 }

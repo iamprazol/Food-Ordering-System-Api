@@ -19,6 +19,7 @@ Auth::routes();
 
 Route::middleware(['auth'])->group (function () {
     Route::get('/home', 'HomeController@index')->name('home');
+    Route::get('orders/view/{id}', ['as' => 'orders.view', 'uses' => 'Web\Orders\OrdersController@viewOrder']);
 });
 
 Route::middleware(['auth','admin'])->prefix('admin')->group (function () {
@@ -71,6 +72,22 @@ Route::middleware(['auth','admin'])->prefix('admin')->group (function () {
     Route::post('delivery/update/{id}', ['as' => 'delivery.update', 'uses' => 'Restaurant\DeliveryController@updateDelivery']);
     Route::delete('delivery/destroy/{id}', ['as' => 'delivery.destroy', 'uses' => 'Restaurant\DeliveryController@destroy']);
 
+    Route::get('orders', ['as' => 'orders.index', 'uses' => 'Web\Orders\OrdersController@allOrders']);
+
     Route::get('logout', '\App\Http\Controllers\Auth\LoginController@logout');
 
+});
+
+Route::middleware('role:manager')->group(function () {
+    Route::get('restaurant/orders', ['as' => 'restaurant.orders.show', 'uses' => 'Web\Orders\RestaurantOrderController@index']);
+    Route::post('restaurant/orders/{order}/accept', ['as' => 'restaurant.order.accept', 'uses' => 'Web\Orders\RestaurantOrderController@accept'] );
+    Route::post('restaurant/orders/{order}/reject', ['as' => 'restaurant.order.reject', 'uses' => 'Web\Orders\RestaurantOrderController@reject']);
+    Route::post('restaurant/orders/{order}/ready', ['as' => 'restaurant.order.ready', 'uses' => 'Web\Orders\RestaurantOrderController@ready']);
+});
+
+Route::middleware('role:delivery')->group(function () {
+    Route::get('delivery/jobs', ['as' => 'order.show', 'uses' => 'Web\Orders\CourierJobController@index']);
+    Route::post('delivery/jobs/{order}/pickup', ['as' => 'order.pickup', 'uses' => 'Web\Orders\CourierJobController@pickup']);
+    Route::post('delivery/jobs/{order}/on-the-way', ['as' => 'order.onTheWay', 'uses' => 'Web\Orders\CourierJobController@onTheWay']);
+    Route::post('delivery/jobs/{order}/deliver', ['as' => 'order.deliver', 'uses' => 'Web\Orders\CourierJobController@deliver']);
 });

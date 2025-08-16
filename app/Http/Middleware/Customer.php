@@ -19,7 +19,7 @@ class Customer
         if (Auth::check() && Auth::user()->role->role == 'user') {
             return $next($request);
         } elseif (Auth::check() && Auth::user()->role->role == 'delivery') {
-            return redirect('/delivery');
+            return redirect('/delivery/jobs');
         } else {
             return redirect('/admin/home');
         }

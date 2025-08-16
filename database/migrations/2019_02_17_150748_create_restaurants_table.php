@@ -29,7 +29,10 @@ class CreateRestaurantsTable extends Migration
             $table->string('address');
             $table->double('latitude')->default(27.23256);
             $table->double('longitude')->default(80.23256);
+            $table->boolean('is_open')->default(true);
+            $table->unsignedSmallInteger('prep_time_minutes')->default(15);
             $table->timestamps();
+
         });
     }
 

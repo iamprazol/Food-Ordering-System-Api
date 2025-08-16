@@ -59,7 +59,8 @@ class User extends Authenticatable
         return $this->hasMany('App\Review');
     }
 
-    public function is_superAdmin($id){
+    public function is_superAdmin(){
+        $id = Auth::id();
         $user = User::where('id' , $id)->first();
         if($user->role_id == 1 ){
             return true;
@@ -68,9 +69,20 @@ class User extends Authenticatable
         }
     }
 
-    public function is_manager($id){
+    public function is_manager(){
+        $id = Auth::id();
         $user = User::where('id' , $id)->first();
         if($user->role_id == 2 ){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function is_delivery(){
+        $id = Auth::id();
+        $user = User::where('id' , $id)->first();
+        if($user->role_id == 3 ){
             return true;
         } else {
             return false;

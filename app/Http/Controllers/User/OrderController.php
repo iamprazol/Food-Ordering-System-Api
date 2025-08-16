@@ -46,12 +46,16 @@ class OrderController extends Controller
         $order = Order::create([
             'user_id' => $request->user_id,
             'restaurant_id' => $request->restaurant_id,
+            'status' => Order::STATUS_SENT_TO_RESTAURANT,
+            'payment_status' => Order::PAY_NONE,
             'address_id' => $request->address_id,
             'delivery_date' => Carbon::now()->format('Y-m-d'),
             'delivery_time' => Carbon::now()->addHour()->format('H:i:s'),
             'instruction' => $request->instruction,
             'total_price' => $request->total_price,
             'details' => $request->details,
+            'otp_code' => strval(rand(100000, 999999)),
+            'placed_at' => now(),
         ]);
 
         $data = new OrderResource($order);
@@ -86,4 +90,13 @@ class OrderController extends Controller
         }
     }
 
+    public function cancel(Order $order)
+    {
+        $can = in_array($order->status, [Order::STATUS_CREATED, Order::STATUS_SENT_TO_RESTAURANT]);
+        if (!$can) {
+            abort(422, 'Cannot cancel now');
+        }
+        $order->update(['status'=>Order::STATUS_CANCELLED, 'cancelled_at'=>now()]);
+        return $order;
+    }
 }

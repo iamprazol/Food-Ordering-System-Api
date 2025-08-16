@@ -84,10 +84,21 @@
                     </a>
                 </li>
 
-                @if(auth()->user()->restaurant || auth()->user()->role_id == 1)
+                @if(auth()->user()->role->role !== "user")
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ '#' }}">
+                        <?php $order_link = auth()->user()->is_delivery() ? route('order.show') : route('orders.index'); ?>
+                        <a class="nav-link" href="{{ $order_link }}">
                             <i class="ni ni-bullet-list-67"></i> {{ __('Orders') }}
+                            <?php
+                                if (auth()->user()->is_delivery()) {
+                                    $ordersCount = App\Order::where('status', 'READY')->count();
+                                } else {
+                                    $ordersCount = auth()->user()->restaurant->order()->where('status', 'SENT_TO_RESTAURANT')->count();
+                                }
+                            ?>
+                            @if( $ordersCount > 0 )
+                                <span class="foodie-notification-badge">{{$ordersCount}}</span>
+                            @endif
                         </a>
                     </li>
                     <li class="nav-item">
