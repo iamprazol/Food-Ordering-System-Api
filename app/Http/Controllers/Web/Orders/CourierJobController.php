@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Web\Orders;
 use App\Http\Controllers\Controller;
 use App\Order;
 use Illuminate\Http\Request;
+use App\Notifications\OrderStatusUpdated;
 
 class CourierJobController extends Controller
 {
@@ -26,6 +27,7 @@ class CourierJobController extends Controller
     {
         $this->authorize('carry', $order);
         $order->update(['status'=>Order::STATUS_PICKED_UP, 'picked_up_at'=>now(), 'courier_id' => auth()->user()->id]);
+        $order->user->notify(new OrderStatusUpdated($order, __('Your order has been picked up by the delivery boy.') ));
         return redirect()->route('order.show')->withStatus( array( 'type' => "success", "message" => __('Order Deliver Request Accepted Successfully.') ) );
     }
 
@@ -33,6 +35,7 @@ class CourierJobController extends Controller
     {
         $this->authorize('carry', $order);
         $order->update(['status'=>Order::STATUS_ON_THE_WAY]);
+        $order->user->notify(new OrderStatusUpdated($order, __('Your order is arriving soon.') ));
 
         return redirect()->route('order.show')->withStatus( array( 'type' => "success", "message" => __('Order Picked Up Successfully.') ) );
     }
@@ -46,6 +49,7 @@ class CourierJobController extends Controller
         //     abort(422, 'Invalid OTP');
         // }
         $order->update(['status'=>Order::STATUS_DELIVERED, 'delivered_at'=>now()]);
+        $order->user->notify(new OrderStatusUpdated($order, __('Your order has been delivered successfully.') ));
 
         return redirect()->route('order.show')->withStatus( array( 'type' => "success", "message" => __('Order Delivered Successfully.') ) );
     }

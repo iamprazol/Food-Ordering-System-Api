@@ -16,6 +16,7 @@ return [
      * This configuration is used by `DefaultProfile`.
      */
     'default_profile' => [
+        'paths' => ['api/*', 'broadcasting/auth'],
 
         'allow_credentials' => true,
 

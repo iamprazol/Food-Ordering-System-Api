@@ -66,7 +66,7 @@
                                                 @if($order->status === 'SENT_TO_RESTAURANT' && auth()->user()->is_manager() )
                                                     <form id="approve-order" action="{{ route('restaurant.order.accept', ['order' => $order->id ]) }}" method="POST">
                                                         @csrf
-                                                            <button type="submit" class="action-btn approve-btn" data-toggle="tooltip" data-placement="bottom" title="Approve Order">
+                                                            <button type="submit" class="action-btn approve-btn">
                                                                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
                                                                     xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                                                                     <path d="M5 12.5l4 4 10-10" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -75,7 +75,7 @@
                                                         </form>
                                                         <form id="deny-order" action="{{ route('restaurant.order.reject', ['order' => $order->id ]) }}" method="POST">
                                                             @csrf
-                                                            <button type="submit" class="action-btn deny-btn" data-toggle="tooltip" data-placement="bottom" title="Reject Order">
+                                                            <button type="submit" class="action-btn deny-btn">
                                                                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
                                                                     xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                                                                     <path d="M6 6l12 12M18 6L6 18" stroke="white" stroke-width="2" stroke-linecap="round"/>
@@ -114,7 +114,7 @@
                                                 @if($order->status === 'READY' && auth()->user()->is_delivery() )
                                                     <form id="pickup-order" action="{{ route('order.pickup', ['order' => $order->id ]) }}" method="POST">
                                                         @csrf
-                                                        <button type="submit" class="action-btn approve-btn" data-toggle="tooltip" data-placement="bottom" title="Accept Delivery Request">
+                                                        <button type="submit" class="action-btn approve-btn">
                                                             <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
                                                                 xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                                                                 <path d="M5 12.5l4 4 10-10" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -126,7 +126,7 @@
                                                     @if($order->courier_id === auth()->user()->id )
                                                         <form id="on-the-way-order" action="{{ route('order.onTheWay', ['order' => $order->id ]) }}" method="POST">
                                                             @csrf
-                                                            <button type="submit" class="action-btn approve-btn" data-toggle="tooltip" data-placement="bottom" title="Pick Up">
+                                                            <button type="submit" class="action-btn approve-btn">
                                                                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
                                                                     xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                                                                     <path d="M5 12.5l4 4 10-10" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>

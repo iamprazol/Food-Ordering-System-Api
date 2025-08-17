@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Web\Orders;
 use App\Http\Controllers\Controller;
 use App\Order;
 use Illuminate\Support\Facades\Auth;
+use App\Notifications\OrderStatusUpdated;
 
 class RestaurantOrderController extends Controller
 {
@@ -30,6 +31,7 @@ class RestaurantOrderController extends Controller
     {
         $this->authorize('actOn', $order);
         $order->update(['status'=>Order::STATUS_ACCEPTED, 'accepted_at'=>now()]);
+        $order->user->notify(new OrderStatusUpdated($order, __('Your Order has been Acknowledged by the Restaurant') ));
         return redirect()->route('orders.index')->withStatus( array( 'type' => "success", "message" => __('Order Approved Successfully.') ) )->with('orders', Order::where('restaurant_id', $order->restaurant_id)->paginate(15));
     }
 
@@ -37,6 +39,7 @@ class RestaurantOrderController extends Controller
     {
         $this->authorize('actOn', $order);
         $order->update(['status'=>Order::STATUS_REJECTED]);
+        $order->user->notify(new OrderStatusUpdated($order, __('Your Order has been Rejected by the Restaurant') ));
         return redirect()->route('orders.index')->withStatus( array( 'type' => "success", "message" => __('Order cancelled successfuly.') ) )->with('orders', Order::where('restaurant_id', $order->restaurant_id)->paginate(15));
     }
 
@@ -44,6 +47,7 @@ class RestaurantOrderController extends Controller
     {
         $this->authorize('actOn', $order);
         $order->update(['status'=>Order::STATUS_READY, 'ready_at'=>now()]);
+        $order->user->notify(new OrderStatusUpdated($order, __('Your Order is Ready for Delivery') ));
         return redirect()->route('orders.index')->withStatus( array( 'type' => "success", "message" => __('Order Ready for delivery.') ) )->with('orders', Order::where('restaurant_id', $order->restaurant_id)->paginate(15));
     }
 }
