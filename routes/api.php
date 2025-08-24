@@ -86,19 +86,4 @@ Route::get('restaurants', 'Restaurant\RestaurantController@allRestaurants');  //
 Route::get('restaurants/search', 'Restaurant\RestaurantController@searchRestaurant');
 Route::get('foods', 'Restaurant\FoodController@AllFoods');  //List all restaurant with letters supplied in name attribute
 
-/*Route::get('/admin', function(){
-    return response(['message' =>'Hello Admin', 'status' => 200]) ;
-})->middleware('auth:api','admin');
-
-Route::get('/delivery', function(){
-    return response(['message' =>'Hello Delivery Boy', 'status' => 200]) ;
-})->middleware('auth:api','delivery');
-
-Route::get('/customer', function(){
-    return response(['message' =>'Hello Customer', 'status' => 200]) ;
-})->middleware('auth:api','customer');
-
-Route::get('/manager', function(){
-    return response(['message' =>'Hello Restaurant Manager', 'status' => 200]) ;
-})->middleware('auth:api','manager');
-*/
+Route::post( '/payment-intent', 'Payment\StripeController@createPaymentIntent');

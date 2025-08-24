@@ -16,19 +16,35 @@ Route::get('/admin-panel', function () {
     return view('welcome');
 });
 Auth::routes();
-
-Route::middleware(['auth'])->group (function () {
-    Route::get('/home', 'HomeController@index')->name('home');
-    Route::get('orders/view/{id}', ['as' => 'orders.view', 'uses' => 'Web\Orders\OrdersController@viewOrder']);
+Route::get('/', function () {
+    return redirect()->route('login');
 });
 
-Route::middleware(['auth','admin'])->prefix('admin')->group (function () {
-    Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/', function () {
+    if (!auth()->check()) {
+        return redirect()->route('login');
+    }
 
-    Route::resource('user', 'UserController', ['except' => ['show']]);
-    Route::get('user/manager', ['as' => 'user.managers', 'uses' => 'UserController@manager']);
-    Route::get('user/customer', ['as' => 'user.customers', 'uses' => 'UserController@customer']);
-    Route::get('user/delivery', ['as' => 'user.delivery', 'uses' => 'Restaurant\DeliveryController@index']);
+    $user = auth()->user();
+
+    if ($user->is_superAdmin()) {
+        return redirect()->route('orders.index');
+    }
+    if ($user->is_manager()) {
+        return redirect()->route('restaurant.orders.show');
+    }
+    if ($user->is_delivery()) {
+        return redirect()->route('order.show');
+    }
+
+    // Fallback if user has no role
+    return redirect()->route('login');
+})->name('root');
+
+Route::middleware('auth')->group(function () {
+
+    Route::get('orders/view/{id}', ['as' => 'orders.view', 'uses' => 'Web\Orders\OrdersController@viewOrder']);
+    Route::get('logout', '\App\Http\Controllers\Auth\LoginController@logout');
     Route::get('profile', ['as' => 'profile.edit', 'uses' => 'ProfileController@edit']);
 	Route::put('profile', ['as' => 'profile.update', 'uses' => 'ProfileController@update']);
 	Route::put('profile/password', ['as' => 'profile.password', 'uses' => 'ProfileController@password']);
@@ -36,8 +52,9 @@ Route::middleware(['auth','admin'])->prefix('admin')->group (function () {
     Route::get('restaurant', ['as' => 'restaurant.show', 'uses' => 'Restaurant\RestaurantController@index']);
     Route::get('restaurant/profile/{id}', ['as' => 'restaurant.edit', 'uses' => 'Restaurant\RestaurantController@edit']);
     Route::post('restaurant/update/{id}', ['as' => 'restaurant.update', 'uses' => 'Restaurant\RestaurantController@update']);
-    Route::post('restaurant/store/{id}', ['as' => 'restaurant.store', 'uses' => 'Restaurant\RestaurantController@storeRestaurant']);
 
+});
+Route::middleware('auth', 'role:admin|manager')->group( function () {
     Route::get('food/category', ['as' => 'category.show', 'uses' => 'Restaurant\CategoryController@show']);
     Route::get('food/category/search', ['uses' => 'Restaurant\CategoryController@search', 'as' => 'category.search']);
     Route::get('food/category/create', ['as' => 'category.create', 'uses' => 'Restaurant\CategoryController@create']);
@@ -64,6 +81,14 @@ Route::middleware(['auth','admin'])->prefix('admin')->group (function () {
     Route::get('restaurant/reviews', ['as' => 'reviews.show', 'uses' => 'Restaurant\ReviewController@show']);
     Route::get('restaurant/reviews/search', ['uses' => 'Restaurant\ReviewController@search', 'as' => 'reviews.search']);
     Route::delete('restaurant/reviews/destroy/{id}', ['as' => 'reviews.destroy', 'uses' => 'Restaurant\ReviewController@destroy']);
+});
+
+Route::middleware('auth', 'role:admin')->group (function () {
+    Route::resource('user', 'UserController', ['except' => ['show']]);
+    Route::get('user/manager', ['as' => 'user.managers', 'uses' => 'UserController@manager']);
+    Route::get('user/customer', ['as' => 'user.customers', 'uses' => 'UserController@customer']);
+    Route::get('user/delivery', ['as' => 'user.delivery', 'uses' => 'Restaurant\DeliveryController@index']);
+    Route::post('restaurant/store/{id}', ['as' => 'restaurant.store', 'uses' => 'Restaurant\RestaurantController@storeRestaurant']);
 
     Route::get('delivery/search', ['uses' => 'Restaurant\DeliveryController@search', 'as' => 'delivery.search']);
     Route::get('delivery/create/{id}', ['as' => 'delivery.create', 'uses' => 'Restaurant\DeliveryController@create']);
@@ -73,9 +98,6 @@ Route::middleware(['auth','admin'])->prefix('admin')->group (function () {
     Route::delete('delivery/destroy/{id}', ['as' => 'delivery.destroy', 'uses' => 'Restaurant\DeliveryController@destroy']);
 
     Route::get('orders', ['as' => 'orders.index', 'uses' => 'Web\Orders\OrdersController@allOrders']);
-
-    Route::get('logout', '\App\Http\Controllers\Auth\LoginController@logout');
-
 });
 
 Route::middleware('role:manager')->group(function () {
@@ -85,7 +107,7 @@ Route::middleware('role:manager')->group(function () {
     Route::post('restaurant/orders/{order}/ready', ['as' => 'restaurant.order.ready', 'uses' => 'Web\Orders\RestaurantOrderController@ready']);
 });
 
-Route::middleware('role:delivery')->group(function () {
+Route::middleware('auth', 'role:delivery')->group(function () {
     Route::get('delivery/jobs', ['as' => 'order.show', 'uses' => 'Web\Orders\CourierJobController@index']);
     Route::post('delivery/jobs/{order}/pickup', ['as' => 'order.pickup', 'uses' => 'Web\Orders\CourierJobController@pickup']);
     Route::post('delivery/jobs/{order}/on-the-way', ['as' => 'order.onTheWay', 'uses' => 'Web\Orders\CourierJobController@onTheWay']);

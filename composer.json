@@ -19,7 +19,8 @@
         "laravel/tinker": "^1.0",
         "lcobucci/jwt": "3.3.3",
         "pusher/pusher-php-server": "^4.0",
-        "spatie/laravel-cors": "^1.7"
+        "spatie/laravel-cors": "^1.7",
+        "stripe/stripe-php": "^13.0"
     },
     "require-dev": {
         "beyondcode/laravel-dump-server": "^1.0",

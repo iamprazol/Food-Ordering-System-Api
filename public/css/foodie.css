@@ -10,10 +10,6 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 }
 
-.bg-gradient-default {
-  background: linear-gradient(135deg, #d4002f 0%, #ff0018 100%) !important;
-}
-
 .bg-gradient-default::before {
   content: "";
   position: absolute;

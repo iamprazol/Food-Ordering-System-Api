@@ -16,11 +16,6 @@ class RestaurantOrderController extends Controller
         $orders =  Order::whereHas('restaurant', function ($q) use ($ownerId) {
             $q->where('user_id', $ownerId);
         })
-        ->whereIn('status', [
-            Order::STATUS_SENT_TO_RESTAURANT,
-            Order::STATUS_ACCEPTED,
-            Order::STATUS_READY
-        ])
         ->orderBy('id','desc')
         ->paginate(15);
 

@@ -29,7 +29,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/';
 
     /**
      * Create a new controller instance.
@@ -82,12 +82,8 @@ class RegisterController extends Controller
     {
         $roleName = optional($user->role)->role;
 
-        if ($roleName === 'manager') {
-            return redirect('/admin/profile');
-        }
-
-        if ($roleName === 'delivery') {
-            return redirect()->route('user.delivery');
+        if ($roleName !== 'user') {
+            return redirect('/');
         }
 
         return redirect()->route('user.customer');
