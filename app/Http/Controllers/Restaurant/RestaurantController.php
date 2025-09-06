@@ -25,19 +25,21 @@ class RestaurantController extends Controller
 
     public function allRestaurants(Request $request){
         $perPage = $request->get('per_page', 8);
-        $restaurants = Restaurant::orderBy('restaurant_name', 'asc')->paginate($perPage);
+        $page = $request->get('page', 1);
+
+        $restaurants = Restaurant::orderBy('restaurant_name', 'asc')->paginate($perPage, ['*'], 'page', $page);
         $data = RestaurantResource::collection($restaurants);
 
         return response()->json([
-                'data' => $data,
-                'message' => 'Restaurants loaded',
-                'pagination' => [
-                    'current_page' => $restaurants->currentPage(),
-                    'last_page' => $restaurants->lastPage(),
-                    'per_page' => $restaurants->perPage(),
-                    'total' => $restaurants->total()
-                ]
-            ]);
+            'data' => $data,
+            'message' => 'Restaurants loaded',
+            'pagination' => [
+                'current_page' => $restaurants->currentPage(),
+                'last_page' => $restaurants->lastPage(),
+                'per_page' => $restaurants->perPage(),
+                'total' => $restaurants->total()
+            ]
+        ]);
     }
 
    public function searchRestaurant(Request $filters)
